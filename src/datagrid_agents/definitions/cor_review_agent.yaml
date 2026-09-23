@@ -3,6 +3,9 @@ description: >-
   Owner-side, Procore-only first-pass review of Change Order Requests, graded on cost,
   schedule, and technical (scope) criteria and delivered as a branded HTML report.
 agent_model: magpie-2.5
+# The review is a long multi-step retrieval plus a 40k-character render contract.
+# Fast/lite models skip the template and invent their own markup, so pin a reasoning model.
+llm_model: claude-opus-4-8
 tools:
   - semantic_search
   - pdf_extraction

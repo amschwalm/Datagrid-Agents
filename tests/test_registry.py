@@ -29,6 +29,19 @@ def test_load_definition_has_required_fields():
     assert params["corpus"] == [{"type": "knowledge", "knowledge_id": "kn_demo"}]
 
 
+def test_llm_model_is_optional_and_forwarded_when_set():
+    base = {"name": "x", "description": "y", "system_prompt": "s"}
+    assert "llm_model" not in _parse_definition(dict(base), "unset").create_params()
+
+    pinned = _parse_definition({**base, "llm_model": "claude-opus-4-8"}, "pinned")
+    assert pinned.create_params()["llm_model"] == "claude-opus-4-8"
+
+
+def test_cor_review_agent_pins_a_reasoning_model():
+    # A lite model ignores the 40k-character render contract and invents its own markup.
+    assert load_definition("cor_review_agent").llm_model == "claude-opus-4-8"
+
+
 def test_list_definitions_loads_all():
     definitions = list_definitions()
     assert len(definitions) == len(list_definition_slugs())

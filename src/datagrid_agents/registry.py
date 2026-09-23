@@ -28,6 +28,7 @@ class AgentDefinition:
     custom_prompt: str | None = None
     planning_prompt: str | None = None
     agent_model: str = "magpie-2.5"
+    llm_model: str | None = None
     tools: list[str] = field(default_factory=list)
     knowledge_env: str | None = None
     sample_prompt: str | None = None
@@ -40,6 +41,8 @@ class AgentDefinition:
             "system_prompt": self.system_prompt,
             "agent_model": self.agent_model,
         }
+        if self.llm_model:
+            params["llm_model"] = self.llm_model
         if self.custom_prompt:
             params["custom_prompt"] = self.custom_prompt
         if self.planning_prompt:
@@ -110,6 +113,7 @@ def _parse_definition(raw: dict[str, Any], slug: str) -> AgentDefinition:
         custom_prompt=prompts["custom_prompt"],
         planning_prompt=prompts["planning_prompt"],
         agent_model=str(raw.get("agent_model") or "magpie-2.5"),
+        llm_model=_optional_str(raw.get("llm_model")),
         tools=[str(t) for t in (raw.get("tools") or [])],
         knowledge_env=_optional_str(raw.get("knowledge_env")),
         sample_prompt=_optional_str(raw.get("sample_prompt")),

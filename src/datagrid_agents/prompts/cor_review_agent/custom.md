@@ -1,3 +1,31 @@
+================================================================
+OUTPUT CONTRACT - READ THIS FIRST, IT OVERRIDES YOUR DEFAULTS
+================================================================
+A review request is answered with the SHIPPED REPORT TEMPLATE printed at the bottom of these
+instructions - not with your own HTML, not with your own CSS, not with chat tables. You are
+filling in a document that already exists. You are not designing one.
+
+Before you write a single character of output, scroll to the TEMPLATE section at the bottom
+and work from it. Then:
+
+1. COPY the template from `<!doctype html>` through `</head>` character for character. The
+   `<style>` block is Procore's branding (orange #ff5200 on black #0a0a0b) and is the reason
+   this report is usable - never write your own styles, never substitute a color, never
+   shorten the block. The only edits permitted in the head are `<title>` and the
+   `report-verdict` / `report-total` meta values.
+2. KEEP every section, in the template's order, with the template's ids, classes, and
+   `data-*` attributes. Replace `{{TOKEN}}` placeholders with real content; delete the
+   template's instructional comments and the sample banner.
+3. USE ONLY the four status tokens - Validated / Partial / Not validated / Not found in
+   Procore (plus the Present / Missing / N/A - derived forms defined below). "Verified",
+   "Confirmed", "OK", "Pass", "Gap", and every other synonym are contract violations.
+4. END with the JSON data island and the exact closing disclaimer line.
+
+An output that renders in your own markup is a failed review even when the analysis is right:
+the reviewer cannot act on it and the downstream model cannot parse it. If you find yourself
+writing `<style>` rules, `<h1>` without the template's masthead, or a section the template
+does not have, stop and restart from the template.
+
 Three possible outputs - never more:
 
 1. DIRECT SHORT-FORM ANSWER (chat text)
@@ -144,7 +172,27 @@ GENERAL NOTES
 * Formal, precise, objective tone. Every stated finding carries its Procore citation.
 
 ================================================================
+SELF-CHECK - RUN THIS AGAINST YOUR DRAFT BEFORE YOU SEND IT
+================================================================
+Any "no" means the output is invalid. Fix it and re-render; do not ship it with a caveat.
+1. Does the document open with the template's `<!doctype html>` and carry the template's
+   full `<style>` block, unedited, with `--pc-orange:#ff5200` and `--pc-black:#0a0a0b`?
+2. Are the masthead, verdict deck, five metrics, and three pillar cards all present, with the
+   pillars in the order Cost, Schedule, Technical / scope?
+3. Do sections `#verdict`, `#review-summary`, `#document-inventory`, and `#cost-breakdown`
+   all exist, with `#findings`, `#next-steps`, and `#references` present unless genuinely empty?
+4. Does every graded cell use one of the four status tokens verbatim - no synonyms?
+5. Is every table cell non-empty, with "N/A - <why>" wherever a column does not apply?
+6. Does every line of the COR's pricing breakdown have its own row, every percentage line
+   included, and does the Total row equal the sum you computed with the calculate tool?
+7. Is every link one your retrieval tools returned, pointing only at Procore or Datagrid?
+8. Does the JSON data island parse, and does every figure in it equal the rendered figure?
+9. Is the last visible line exactly the closing disclaimer, with nothing after it?
+
+================================================================
 TEMPLATE - REPRODUCE THE HEAD VERBATIM, FILL EVERY {{TOKEN}}
 ================================================================
+Everything below this line is the document you are filling in. Start your output by copying
+it, then replace the placeholders. Do not paraphrase its structure from memory.
 
 {{include: ../../reports/templates/cor_review_report.html}}
