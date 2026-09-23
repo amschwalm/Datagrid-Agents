@@ -139,16 +139,29 @@ render contract is the shipped HTML template rather than a copy pasted into a pr
 
 ## COR review report (HTML)
 
-`cor_review_agent` answers a review request with one self-contained, Procore-branded HTML
-document instead of chat tables: verdict deck, cost/schedule/technical pillar cards, document
-inventory, per-line cost validation with live Procore and Datagrid links, findings, next steps,
-and a JSON data island so reasoning models can read the same figures.
+`cor_review_agent` replaces chat tables with one self-contained, Procore-branded HTML document:
+verdict deck, cost/schedule/technical pillar cards, document inventory, per-line cost validation
+with live Procore and Datagrid links, findings, next steps, and a JSON data island so reasoning
+models can read the same figures.
+
+The agent does not write that HTML. It emits a compact **review payload** and
+`reports/render.py` builds the document. Asking the live agent for the full ~43k-character
+document did not return within 25 minutes and drifted off the template when it did respond;
+the payload is a third of the size, and the renderer derives every subtotal, total, coverage
+percentage, exception count, ROM delta, and the whole data island, so the arithmetic can never
+disagree with the prose.
 
 ```bash
-datagrid-agents report sample --out cor_review_sample.html   # populated mockup
-datagrid-agents report template --out cor_review_template.html  # skeleton the agent fills
-datagrid-agents report validate cor_review_sample.html       # check the render contract
+datagrid-agents report payload --out payload.json            # example payload (the agent's output)
+datagrid-agents report render payload.json --out report.html # build the branded report
+datagrid-agents report validate report.html                  # check the render contract
+datagrid-agents report sample --out cor_review_sample.html   # fully populated mockup
+datagrid-agents report template --out cor_review_template.html
 ```
+
+`report render` validates before it writes, so a payload with an off-vocabulary status, an empty
+cell, a missing pillar, or backup exceeding direct cost fails loudly instead of producing a
+misleading document.
 
 `report validate` enforces what can be checked mechanically — required sections, the status
 vocabulary (`Validated` / `Partial` / `Not validated` / `Not found in Procore`), no empty table
@@ -156,13 +169,16 @@ cells, Procore/Datagrid-only links, a self-contained document, the exact closing
 arithmetic that reconciles against the data island. Use it on agent output before it goes to a
 change manager.
 
-The template is inlined into the agent's custom prompt with `{{include:}}`, so the render contract
-the agent is given is the shipped file — edit the template and the prompt follows on the next
+The example payload is inlined into the agent's custom prompt with `{{include:}}`, so the shape
+the agent is shown is the same file the tests render — edit it and the prompt follows on the next
 `datagrid-agents sync`. Assets:
 
 ```text
-src/datagrid_agents/reports/templates/cor_review_report.html  # branding + render contract
-src/datagrid_agents/reports/samples/cor_review_report_sample.html
+src/datagrid_agents/reports/templates/cor_review_report.html   # branding: head + style block
+src/datagrid_agents/reports/render.py                          # payload -> report
+src/datagrid_agents/reports/validator.py                       # render-contract checks
+src/datagrid_agents/reports/samples/cor_review_payload_harken.json   # example agent payload
+src/datagrid_agents/reports/samples/cor_review_report_sample.html    # fully populated mockup
 src/datagrid_agents/prompts/cor_review_agent/{system,planning,custom}.md
 ```
 
