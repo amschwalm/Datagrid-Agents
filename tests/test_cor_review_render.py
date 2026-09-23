@@ -41,6 +41,12 @@ def test_render_reuses_the_shipped_branding_block():
     assert "SKELETON" not in html
 
 
+def test_markup_is_escaped_once_not_twice():
+    html = render_report(copy.deepcopy(PAYLOAD))
+    assert "&amp;amp;" not in html
+    assert "Cost Breakdown &amp; Validation" in html
+
+
 def test_payload_is_far_smaller_than_the_document_it_produces():
     # The whole point of the payload: the agent writes this, not 43k of HTML.
     rendered = render_report(copy.deepcopy(PAYLOAD))

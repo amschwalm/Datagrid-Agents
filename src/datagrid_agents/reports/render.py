@@ -548,7 +548,7 @@ def _cost_breakdown(number: int, payload: dict[str, Any], totals: dict[str, floa
     )
     body += _rollup(block.get("rollup"))
     return _section(
-        number, "Cost Breakdown &amp; Validation", "cost-breakdown", block.get("note", ""), body
+        number, "Cost Breakdown & Validation", "cost-breakdown", block.get("note", ""), body
     )
 
 
