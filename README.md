@@ -128,6 +128,9 @@ Definitions live in `src/datagrid_agents/definitions/*.yaml`. Each file sets:
 - `planning_prompt` — multi-step approach
 - `tools` — Datagrid tools (e.g. `semantic_search`, `pdf_extraction`)
 - `agent_model` — defaults to `magpie-2.5` (Execute tier)
+- `llm_model` — optional; pins the underlying model. Datagrid defaults to a lite model, which is
+  fine for short answers but drops long render contracts, so `cor_review_agent` pins
+  `claude-opus-4-8`
 
 Long prompts can live outside the YAML: use `system_prompt_file`, `custom_prompt_file`, or
 `planning_prompt_file` with a path relative to `src/datagrid_agents/`, and inline other files
@@ -151,7 +154,11 @@ datagrid-agents report validate cor_review_sample.html       # check the render 
 vocabulary (`Validated` / `Partial` / `Not validated` / `Not found in Procore`), no empty table
 cells, Procore/Datagrid-only links, a self-contained document, the exact closing disclaimer, and
 arithmetic that reconciles against the data island. Use it on agent output before it goes to a
-change manager. Assets:
+change manager.
+
+The template is inlined into the agent's custom prompt with `{{include:}}`, so the render contract
+the agent is given is the shipped file — edit the template and the prompt follows on the next
+`datagrid-agents sync`. Assets:
 
 ```text
 src/datagrid_agents/reports/templates/cor_review_report.html  # branding + render contract
