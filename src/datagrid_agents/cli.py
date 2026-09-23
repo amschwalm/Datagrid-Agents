@@ -12,9 +12,13 @@ from datagrid_agents.orchestrator import list_roles
 from datagrid_agents.orchestrator.skill_bridge import load_skill_modules, skill_scripts_dir
 from datagrid_agents.registry import list_definitions, load_definition
 from datagrid_agents.reports import (
+    PAYLOAD_PATH,
+    PayloadError,
     SAMPLE_PATH,
     TEMPLATE_PATH,
+    render_report,
     validate_file,
+    validate_report,
 )
 from datagrid_agents import service
 
@@ -161,14 +165,40 @@ def cmd_report(args: argparse.Namespace) -> int:
         print(f"{args.path}: report passes the COR review render contract")
         return 0
 
+    if args.action == "render":
+        path = Path(args.path) if args.path else PAYLOAD_PATH
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            print(f"error: {path} is not valid JSON: {exc}", file=sys.stderr)
+            return 2
+        try:
+            html = render_report(payload)
+        except PayloadError as exc:
+            print(f"error: {path}: {exc}", file=sys.stderr)
+            return 1
+        issues = validate_report(html)
+        if issues:
+            print(f"rendered report fails the contract ({len(issues)} issue(s)):", file=sys.stderr)
+            for issue in issues:
+                print(f"  - {issue}", file=sys.stderr)
+            return 1
+        return _emit(html, args.out, f"rendered from {path.name}")
+
+    if args.action == "payload":
+        return _emit(PAYLOAD_PATH.read_text(encoding="utf-8"), args.out, PAYLOAD_PATH.name)
+
     source = TEMPLATE_PATH if args.action == "template" else SAMPLE_PATH
-    html = source.read_text(encoding="utf-8")
-    if args.out:
-        out = Path(args.out)
-        out.write_text(html, encoding="utf-8")
-        print(f"wrote {out} ({len(html):,} bytes) from {source.name}")
+    return _emit(source.read_text(encoding="utf-8"), args.out, source.name)
+
+
+def _emit(text: str, out: str | None, origin: str) -> int:
+    if out:
+        path = Path(out)
+        path.write_text(text, encoding="utf-8")
+        print(f"wrote {path} ({len(text):,} bytes) from {origin}")
     else:
-        print(html)
+        print(text)
     return 0
 
 
@@ -270,14 +300,21 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_report = sub.add_parser(
         "report",
-        help="Emit or validate the COR review HTML report (template / sample / validate)",
+        help="Build, emit, or validate the COR review HTML report",
     )
     p_report.add_argument(
         "action",
-        choices=["template", "sample", "validate"],
-        help="template: skeleton the agent fills; sample: populated mockup; validate: check a file",
+        choices=["render", "payload", "template", "sample", "validate"],
+        help=(
+            "render: build the report from an agent payload; payload: example payload; "
+            "template: skeleton; sample: populated mockup; validate: check a file"
+        ),
     )
-    p_report.add_argument("path", nargs="?", help="Report file to validate (action=validate)")
+    p_report.add_argument(
+        "path",
+        nargs="?",
+        help="Payload JSON (action=render) or report file (action=validate)",
+    )
     p_report.add_argument("--out", "-o", help="Write to this path instead of stdout")
     p_report.add_argument(
         "--allow-placeholders",

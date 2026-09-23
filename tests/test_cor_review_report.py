@@ -1,5 +1,6 @@
 """Render-contract tests for the Micron COR Review Agent report."""
 
+import json
 from pathlib import Path
 
 import pytest
@@ -8,6 +9,7 @@ from datagrid_agents.cli import main
 from datagrid_agents.registry import load_definition
 from datagrid_agents.reports import (
     CLOSING_LINE,
+    PAYLOAD_PATH,
     SAMPLE_PATH,
     TEMPLATE_PATH,
     load_data_island,
@@ -103,15 +105,23 @@ def test_validator_catches_contract_violations(mutate, expected):
     assert any(expected in issue for issue in issues), issues
 
 
-def test_definition_loads_prompt_files_and_inlines_the_template():
+def test_definition_loads_prompt_files_and_inlines_the_example_payload():
     definition = load_definition("cor_review_agent")
     assert definition.name == "Micron COR Review Agent"
     assert "THE THREE REVIEW PILLARS" in definition.system_prompt
     assert "HARVEST LINKS WHILE YOU RETRIEVE" in definition.planning_prompt
     assert "{{include:" not in definition.custom_prompt
-    assert "<!doctype html>" in definition.custom_prompt
-    assert style_block(TEMPLATE_HTML) in definition.custom_prompt
+    assert json.loads(PAYLOAD_PATH.read_text(encoding="utf-8")) == json.loads(
+        definition.custom_prompt[definition.custom_prompt.index("{\n  \"schema\"") :]
+    )
     assert "pdf_page_info" in definition.tools and "calculate" in definition.tools
+
+
+def test_agent_is_never_asked_to_reproduce_the_stylesheet():
+    # The render contract lives in the renderer, not in the model's output budget.
+    custom = load_definition("cor_review_agent").custom_prompt
+    assert style_block(TEMPLATE_HTML) not in custom
+    assert len(custom) < len(SAMPLE_HTML)
 
 
 def test_report_cli_emits_and_validates(tmp_path: Path, capsys):

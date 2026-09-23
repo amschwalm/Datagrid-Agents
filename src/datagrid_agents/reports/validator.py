@@ -19,6 +19,7 @@ TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 SAMPLES_DIR = Path(__file__).resolve().parent / "samples"
 TEMPLATE_PATH = TEMPLATES_DIR / "cor_review_report.html"
 SAMPLE_PATH = SAMPLES_DIR / "cor_review_report_sample.html"
+PAYLOAD_PATH = SAMPLES_DIR / "cor_review_payload_harken.json"
 
 CLOSING_LINE = (
     "First-pass analysis only - Micron decides. "
