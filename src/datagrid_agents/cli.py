@@ -11,6 +11,11 @@ from datagrid_agents.client import MissingApiKeyError
 from datagrid_agents.orchestrator import list_roles
 from datagrid_agents.orchestrator.skill_bridge import load_skill_modules, skill_scripts_dir
 from datagrid_agents.registry import list_definitions, load_definition
+from datagrid_agents.reports import (
+    SAMPLE_PATH,
+    TEMPLATE_PATH,
+    validate_file,
+)
 from datagrid_agents import service
 
 
@@ -141,6 +146,32 @@ def cmd_whoami(_: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_report(args: argparse.Namespace) -> int:
+    """Emit or check the COR review report render contract."""
+    if args.action == "validate":
+        if not args.path:
+            print("error: report validate needs a file path", file=sys.stderr)
+            return 2
+        issues = validate_file(args.path, allow_placeholders=args.allow_placeholders)
+        if issues:
+            print(f"{args.path}: {len(issues)} issue(s)")
+            for issue in issues:
+                print(f"  - {issue}")
+            return 1
+        print(f"{args.path}: report passes the COR review render contract")
+        return 0
+
+    source = TEMPLATE_PATH if args.action == "template" else SAMPLE_PATH
+    html = source.read_text(encoding="utf-8")
+    if args.out:
+        out = Path(args.out)
+        out.write_text(html, encoding="utf-8")
+        print(f"wrote {out} ({len(html):,} bytes) from {source.name}")
+    else:
+        print(html)
+    return 0
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     prompt = args.prompt
     if args.file:
@@ -236,6 +267,24 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--conversation-id", help="Continue an existing conversation")
     p_run.add_argument("--json", action="store_true", help="Emit JSON instead of plain text")
     p_run.set_defaults(func=cmd_run)
+
+    p_report = sub.add_parser(
+        "report",
+        help="Emit or validate the COR review HTML report (template / sample / validate)",
+    )
+    p_report.add_argument(
+        "action",
+        choices=["template", "sample", "validate"],
+        help="template: skeleton the agent fills; sample: populated mockup; validate: check a file",
+    )
+    p_report.add_argument("path", nargs="?", help="Report file to validate (action=validate)")
+    p_report.add_argument("--out", "-o", help="Write to this path instead of stdout")
+    p_report.add_argument(
+        "--allow-placeholders",
+        action="store_true",
+        help="Permit {{TOKEN}} placeholders (use when validating the template itself)",
+    )
+    p_report.set_defaults(func=cmd_report)
 
     p_roles = sub.add_parser(
         "roles",

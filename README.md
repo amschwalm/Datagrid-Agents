@@ -119,6 +119,7 @@ by the Lessons Learned web app.
 | `schedule_risk` | Critical-path and delay risk analysis |
 | `daily_report_summarizer` | Field report → PM/owner summary |
 | `change_order_analyst` | COR documentation and pricing gap review |
+| `cor_review_agent` | Micron owner-side COR review → branded HTML report (cost / schedule / technical) |
 
 Definitions live in `src/datagrid_agents/definitions/*.yaml`. Each file sets:
 
@@ -127,6 +128,36 @@ Definitions live in `src/datagrid_agents/definitions/*.yaml`. Each file sets:
 - `planning_prompt` — multi-step approach
 - `tools` — Datagrid tools (e.g. `semantic_search`, `pdf_extraction`)
 - `agent_model` — defaults to `magpie-2.5` (Execute tier)
+
+Long prompts can live outside the YAML: use `system_prompt_file`, `custom_prompt_file`, or
+`planning_prompt_file` with a path relative to `src/datagrid_agents/`, and inline other files
+into them with a `{{include: relative/path}}` line. `cor_review_agent` uses both so its
+render contract is the shipped HTML template rather than a copy pasted into a prompt.
+
+## COR review report (HTML)
+
+`cor_review_agent` answers a review request with one self-contained, Procore-branded HTML
+document instead of chat tables: verdict deck, cost/schedule/technical pillar cards, document
+inventory, per-line cost validation with live Procore and Datagrid links, findings, next steps,
+and a JSON data island so reasoning models can read the same figures.
+
+```bash
+datagrid-agents report sample --out cor_review_sample.html   # populated mockup
+datagrid-agents report template --out cor_review_template.html  # skeleton the agent fills
+datagrid-agents report validate cor_review_sample.html       # check the render contract
+```
+
+`report validate` enforces what can be checked mechanically — required sections, the status
+vocabulary (`Validated` / `Partial` / `Not validated` / `Not found in Procore`), no empty table
+cells, Procore/Datagrid-only links, a self-contained document, the exact closing disclaimer, and
+arithmetic that reconciles against the data island. Use it on agent output before it goes to a
+change manager. Assets:
+
+```text
+src/datagrid_agents/reports/templates/cor_review_report.html  # branding + render contract
+src/datagrid_agents/reports/samples/cor_review_report_sample.html
+src/datagrid_agents/prompts/cor_review_agent/{system,planning,custom}.md
+```
 
 ## Add your own agent
 
@@ -155,6 +186,8 @@ src/datagrid_agents/
   registry.py            # load YAML definitions
   service.py             # create / sync / converse
   definitions/           # construction agent blueprints
+  prompts/               # long-form prompt bodies (markdown, with {{include:}})
+  reports/               # COR review HTML template, sample, and validator
   orchestrator/          # stdlib skill adapter + lessons-multipass lenses
 server/
   app.py                 # Lessons Learned FastAPI

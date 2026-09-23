@@ -29,4 +29,7 @@ where = ["src"]
 datagrid_agents = [
   "definitions/*.yaml",
   "orchestrator/agents.yaml",
+  "prompts/**/*.md",
+  "reports/templates/*.html",
+  "reports/samples/*.html",
 ]
