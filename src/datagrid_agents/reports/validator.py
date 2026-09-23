@@ -140,7 +140,7 @@ class _ReportParser(HTMLParser):
         if tag in ("td", "th") and self._cell is not None:
             self._cell_depth -= 1
             if self._cell_depth == 0:
-                text = " ".join("".join(self._cell).split())
+                text = " ".join(" ".join(self._cell).split())
                 if self._row is not None:
                     self._row.append(text)
                 self._cell = None
