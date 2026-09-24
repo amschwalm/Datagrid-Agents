@@ -1,0 +1,815 @@
+<!doctype html>
+<!--
+  COR REVIEW REPORT - POPULATED SAMPLE / MOCKUP
+  Rendered from src/datagrid_agents/reports/templates/cor_review_report.html
+
+  All project, contract, dollar, drawing, and URL values below are FICTIONAL sample
+  data used to demonstrate the render contract. Procore links point at plausible
+  record URLs and will not resolve. A live run must use only URLs returned by the
+  Procore / Datagrid retrieval tools.
+-->
+<html lang="en" data-report="cor-review" data-schema-version="1.0">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COR Review - CCO #007 / COR 006 R3 - Sub-Fab L3 Chilled Water Header Reroute - PVJV Mechanical</title>
+<meta name="generator" content="Micron COR Review Agent">
+<meta name="report-verdict" content="Partially justified">
+<meta name="report-total" content="1124653.75">
+<style>
+:root{
+  --pc-orange:#ff5200; --pc-orange-600:#d84300; --pc-orange-100:#fff1ea; --pc-orange-200:#ffd9c7;
+  --pc-black:#0a0a0b; --pc-ink:#17181a; --pc-slate:#5b6169; --pc-line:#e4e6e9; --pc-bg:#f5f6f7;
+  --ok:#0e7c5a; --ok-bg:#e8f6f0; --warn:#a85408; --warn-bg:#fff3e3;
+  --fail:#b3261e; --fail-bg:#fdeceb; --none:#4b5563; --none-bg:#eef0f2;
+  --font:"Segoe UI",Roboto,"Helvetica Neue",Arial,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--pc-black)}
+body{margin:0;background:var(--pc-bg);color:var(--pc-ink);font-family:var(--font);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+a{color:var(--pc-orange-600);text-decoration:none;border-bottom:1px solid var(--pc-orange-200)}
+a:hover{border-bottom-color:var(--pc-orange-600)}
+a.plink::after{content:" \2197";font-size:.85em;color:var(--pc-slate)}
+a.dlink{color:var(--pc-slate);border-bottom-color:var(--pc-line);font-size:.92em}
+.nolink{color:var(--pc-slate);font-size:.92em}
+
+/* ---------- masthead ---------- */
+.masthead{background:var(--pc-black);color:#fff;border-top:6px solid var(--pc-orange)}
+.brandbar{display:flex;align-items:center;gap:14px;padding:14px 0 12px;border-bottom:1px solid #26282b}
+.brandbar .mark{display:flex;align-items:center;gap:9px}
+.wordmark{font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.brandbar .sep{color:#4a4d52}
+.brandbar .src{font-size:12px;color:#a6abb2;letter-spacing:.04em}
+.brandbar .right{margin-left:auto;display:flex;align-items:center;gap:16px;font-size:12px;color:#a6abb2}
+.btn{display:inline-block;background:var(--pc-orange);color:#fff !important;font-weight:700;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;padding:8px 14px;border-radius:3px;border-bottom:none}
+.btn:hover{background:var(--pc-orange-600);border-bottom:none}
+.titleblock{padding:22px 0 26px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--pc-orange)}
+h1{margin:8px 0 6px;font-size:27px;line-height:1.22;font-weight:700;letter-spacing:-.2px}
+h1 .co{color:var(--pc-orange)}
+.subtitle{color:#c3c7cc;font-size:14px;margin:0}
+.meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#26282b;margin-top:22px;border:1px solid #26282b}
+.meta-grid div{background:#111214;padding:10px 12px}
+.meta-grid dt{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8d9299;margin:0 0 3px}
+.meta-grid dd{margin:0;font-size:13px;color:#fff;font-weight:600}
+.meta-grid dd.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- verdict + pillars ---------- */
+.deck{padding:22px 0 8px}
+.verdict{background:#fff;border:1px solid var(--pc-line);border-left:6px solid var(--pc-orange);
+  border-radius:3px;padding:16px 18px;display:flex;gap:18px;align-items:flex-start}
+.verdict .vlabel{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--pc-slate)}
+.verdict .vtoken{font-size:20px;font-weight:700;color:var(--pc-black);margin-top:2px;white-space:nowrap}
+.verdict .vbody{border-left:1px solid var(--pc-line);padding-left:18px}
+.verdict .vbody p{margin:0 0 6px}
+.verdict .vbody p:last-child{margin-bottom:0}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px}
+.metric{background:#fff;border:1px solid var(--pc-line);border-top:3px solid var(--pc-black);border-radius:3px;padding:12px}
+.metric .k{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pc-slate)}
+.metric .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:18px;font-weight:700;margin-top:4px}
+.metric .n{font-size:11px;color:var(--pc-slate);margin-top:2px}
+.metric.accent{border-top-color:var(--pc-orange)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.pillar{background:#fff;border:1px solid var(--pc-line);border-radius:3px;padding:14px 16px;border-top:4px solid var(--pc-slate)}
+.pillar[data-status="validated"]{border-top-color:var(--ok)}
+.pillar[data-status="partial"]{border-top-color:var(--warn)}
+.pillar[data-status="not-validated"]{border-top-color:var(--fail)}
+.pillar[data-status="not-found"]{border-top-color:var(--none)}
+.pillar h3{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--pc-black)}
+.pillar .pnum{color:var(--pc-orange);margin-right:6px}
+.pillar p{margin:8px 0 0;font-size:13px;color:var(--pc-ink)}
+.pillar ul{margin:8px 0 0;padding-left:18px;font-size:13px}
+.pillar li{margin-bottom:3px}
+
+/* ---------- chips ---------- */
+.chip{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 7px;border-radius:3px;border:1px solid;white-space:nowrap}
+.chip-ok{color:var(--ok);background:var(--ok-bg);border-color:#bfe3d4}
+.chip-warn{color:var(--warn);background:var(--warn-bg);border-color:#f3d5ad}
+.chip-fail{color:var(--fail);background:var(--fail-bg);border-color:#f3c4c0}
+.chip-none{color:var(--none);background:var(--none-bg);border-color:#d6dade}
+.chip-na{color:var(--pc-slate);background:#fff;border-color:var(--pc-line)}
+.chip-lg{font-size:12px;padding:4px 10px}
+
+/* ---------- sections ---------- */
+main{padding:10px 0 0}
+section{background:#fff;border:1px solid var(--pc-line);border-radius:3px;padding:18px 20px 20px;margin:14px 0}
+h2{margin:0 0 4px;font-size:16px;font-weight:700;letter-spacing:-.1px;display:flex;align-items:center;gap:10px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:var(--pc-black);
+  color:var(--pc-orange);font-size:12px;font-weight:700;border-radius:3px;flex:none}
+.sec-note{color:var(--pc-slate);font-size:12.5px;margin:0 0 12px}
+.rule{height:2px;background:linear-gradient(90deg,var(--pc-orange) 0 72px,var(--pc-line) 72px);margin:10px 0 14px}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:1px solid var(--pc-line);border-radius:3px}
+table.rpt{width:100%;border-collapse:collapse;font-size:12.5px}
+table.rpt caption{text-align:left;font-size:11px;color:var(--pc-slate);padding:8px 10px;border-bottom:1px solid var(--pc-line)}
+table.rpt th{background:var(--pc-black);color:#fff;text-align:left;font-size:10.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:9px 10px;vertical-align:bottom;white-space:nowrap}
+table.rpt td{padding:9px 10px;border-bottom:1px solid var(--pc-line);vertical-align:top}
+table.rpt tbody tr:nth-child(even){background:#fafbfb}
+table.rpt tbody tr[data-status="partial"]{box-shadow:inset 3px 0 0 var(--warn)}
+table.rpt tbody tr[data-status="not-validated"]{box-shadow:inset 3px 0 0 var(--fail)}
+table.rpt tbody tr[data-status="not-found"]{box-shadow:inset 3px 0 0 var(--none)}
+table.rpt tbody tr[data-status="validated"]{box-shadow:inset 3px 0 0 var(--ok)}
+table.rpt td.money,table.rpt th.money{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.rpt td.idx{font-family:var(--mono);color:var(--pc-slate);width:34px}
+table.rpt tr.subtotal td{background:var(--pc-orange-100);font-weight:600}
+table.rpt tr.total td{background:var(--pc-black);color:#fff;font-weight:700;border-top:3px solid var(--pc-orange);border-bottom:none}
+table.rpt tr.total a{color:#ffb694}
+table.rpt tr.total .chip{background:transparent;color:#fff;border-color:#4a4d52}
+.why{display:block;color:var(--pc-slate);margin-top:3px;font-size:11.5px}
+.rec{font-weight:600}
+table.rpt tr.total .why{color:#c3c7cc}
+.kv{width:100%;border-collapse:collapse;font-size:13px}
+.kv th{width:230px;text-align:left;background:var(--pc-orange-100);color:var(--pc-black);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;border-bottom:1px solid var(--pc-line);white-space:nowrap}
+.kv td{padding:9px 12px;border-bottom:1px solid var(--pc-line)}
+.kv tr[data-role="rom-context"] th{background:#f1f3f5;color:var(--pc-slate)}
+
+/* ---------- reconciliation aside ---------- */
+.recon{margin-top:16px;border:1px solid var(--pc-line);border-radius:3px;overflow:hidden}
+.recon h3{margin:0;background:var(--pc-black);color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:9px 12px}
+.recon table{width:100%;border-collapse:collapse;font-size:12.5px}
+.recon td{padding:7px 12px;border-bottom:1px solid var(--pc-line)}
+.recon td.money{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.recon tr.neg td.money{color:var(--fail)}
+.recon tr.sum td{font-weight:700;background:var(--pc-orange-100)}
+.recon .foot{font-size:11.5px;color:var(--pc-slate);padding:9px 12px;background:#fafbfb}
+
+/* ---------- findings ---------- */
+.findings{list-style:none;margin:0;padding:0}
+.findings li{border:1px solid var(--pc-line);border-left:4px solid var(--fail);border-radius:3px;padding:11px 13px;margin-bottom:9px;background:#fff}
+.findings li[data-status="partial"]{border-left-color:var(--warn)}
+.findings li[data-status="not-found"]{border-left-color:var(--none)}
+.findings li[data-status="open"]{border-left-color:var(--pc-orange)}
+.badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;background:var(--pc-black);padding:2px 7px;border-radius:3px;margin-right:8px}
+.badge[data-pillar="cost"]{background:var(--pc-orange-600)}
+.badge[data-pillar="schedule"]{background:var(--pc-black)}
+.badge[data-pillar="technical"]{background:var(--pc-slate)}
+.amt{font-family:var(--mono);font-weight:700}
+ol.steps{margin:0;padding-left:22px}
+ol.steps li{margin-bottom:7px}
+ol.steps li::marker{color:var(--pc-orange);font-weight:700}
+ul.refs{list-style:none;margin:0;padding:0;columns:2;column-gap:28px;font-size:12.5px}
+ul.refs li{margin-bottom:7px;break-inside:avoid;padding-left:14px;border-left:2px solid var(--pc-orange-200)}
+ul.refs .rtype{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--pc-slate)}
+
+/* ---------- footer ---------- */
+footer{border-top:3px solid var(--pc-orange);background:var(--pc-black);color:#c3c7cc;margin-top:18px;padding:18px 0 28px}
+footer .prov{font-size:11.5px;color:#8d9299;display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px}
+.disclaimer{margin:0;color:#fff;font-size:13px;font-weight:600}
+.sample-banner{background:var(--pc-orange-100);border-bottom:1px solid var(--pc-orange-200);color:#7a2f00;
+  font-size:12px;padding:8px 0;text-align:center;letter-spacing:.02em}
+
+/* ---------- responsive / print ---------- */
+@media (max-width:980px){
+  .brandbar{flex-wrap:wrap;row-gap:10px}
+  .brandbar .sep,.brandbar .src{display:none}
+  .brandbar .right{flex-direction:column;align-items:flex-end;gap:8px;text-align:right}
+  h1{font-size:22px}
+  .meta-grid{grid-template-columns:repeat(2,1fr)}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .pillars{grid-template-columns:1fr}
+  .verdict{flex-direction:column;gap:10px}
+  .verdict .vbody{border-left:none;padding-left:0}
+  ul.refs{columns:1}
+  .wrap{padding:0 16px}
+}
+@media print{
+  body{background:#fff;font-size:11px}
+  .wrap{max-width:none;padding:0 12mm}
+  .btn,.sample-banner{display:none}
+  section{break-inside:avoid;border-color:#ccc}
+  .masthead,table.rpt th,tr.total td,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  a{color:var(--pc-orange-600);border-bottom:none}
+  a[href]::after{content:"";}
+}
+</style>
+</head>
+<body>
+
+<p class="sample-banner">Sample output - fictional project data for layout review only. Procore links are illustrative and do not resolve.</p>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandbar">
+      <span class="mark">
+        <svg width="26" height="26" viewBox="0 0 26 26" role="img" aria-label="Procore">
+          <rect width="26" height="26" rx="5" fill="#ff5200"></rect>
+          <path d="M8.2 19.6V6.4h5.2c2.9 0 4.7 1.7 4.7 4.4s-1.8 4.5-4.7 4.5h-2.3v4.3zm3-6.8h2c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2h-2z" fill="#fff"></path>
+        </svg>
+        <span class="wordmark">Procore</span>
+      </span>
+      <span class="sep">|</span>
+      <span class="src">Connected project data - all findings sourced from Procore</span>
+      <span class="right">
+        <span>Micron COR Review Agent - 2026-06-18 14:22 MDT</span>
+        <a class="btn" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938472651" target="_blank" rel="noopener">Open CO in Procore</a>
+      </span>
+    </div>
+
+    <div class="titleblock">
+      <p class="eyebrow">Change Order Request Review - First-Pass Analysis</p>
+      <h1><span class="co">CCO #007 / COR 006 R3</span> - Sub-Fab L3 Chilled Water Header Reroute</h1>
+      <p class="subtitle">PVJV Mechanical (Pacific Valley Joint Venture) - $1,124,653.75 as submitted - T&amp;M labor with quoted materials</p>
+
+      <dl class="meta-grid">
+        <div><dt>Project</dt><dd>ID1 Fab Expansion - Phase 2</dd></div>
+        <div><dt>Project no.</dt><dd class="num">MTI-ID1-4200</dd></div>
+        <div><dt>Owner</dt><dd>Micron Technology, Inc.</dd></div>
+        <div><dt>General contractor</dt><dd>Gilbane Building Company</dd></div>
+        <div><dt>Subcontractor</dt><dd>PVJV Mechanical</dd></div>
+        <div><dt>Commitment</dt><dd class="num">SC-04220-MECH</dd></div>
+        <div><dt>COR received</dt><dd class="num">2026-06-12</dd></div>
+        <div><dt>Package</dt><dd class="num">42 pp. indexed</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<div class="wrap deck">
+  <div class="verdict" data-status="partial">
+    <div>
+      <div class="vlabel">Verdict</div>
+      <div class="vtoken">Partially justified</div>
+    </div>
+    <div class="vbody">
+      <p>Entitlement for the header reroute is established by <a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938470551" target="_blank" rel="noopener">OD-8</a> and <a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=771620" target="_blank" rel="noopener">ASI-021 (M-403 Rev 6)</a>, but pricing fails on markup rate, a duplicated scope already executed under CCO #003, and an unsubstantiated delay claim.</p>
+      <p><strong>Backup coverage:</strong> backup covers $753,970.00 of $942,870.00 in direct cost (80.0%); $188,900.00 has no located basis.</p>
+      <p><strong>Schedule claim:</strong> 55 calendar days and $174,900.00 of extended general conditions are claimed - <strong>not substantiated</strong>; no TIA, fragnet, or schedule narrative located in Procore.</p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric accent"><div class="k">COR as submitted</div><div class="v">$1,124,653.75</div><div class="n">12 priced lines, R3 dated 2026-06-11</div></div>
+    <div class="metric"><div class="k">Backup coverage</div><div class="v">80.0%</div><div class="n">$753,970 of $942,870 direct</div></div>
+    <div class="metric"><div class="k">Lines w/ exceptions</div><div class="v">7 / 12</div><div class="n">4 not validated, 3 partial</div></div>
+    <div class="metric"><div class="k">Documentation gaps</div><div class="v">4</div><div class="n">TIA, freight invoice, insulation quote, markup basis</div></div>
+    <div class="metric accent"><div class="k">Recommended reduction / hold</div><div class="v">$355,875.31</div><div class="n">31.6% of submitted total</div></div>
+  </div>
+
+  <div class="pillars">
+    <article class="pillar" data-pillar="cost" data-status="partial">
+      <h3><span class="pnum">01</span>Cost review <span class="chip chip-warn">Partial</span></h3>
+      <ul>
+        <li>Composite OH&amp;P of 15% has no contractual basis; <a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.2</a> sets 10% own forces / 5% subcontracted - <span class="amt">$54,003.50</span> over.</li>
+        <li>Welder rate billed at $104.25/hr against Exhibit C rate of $98.75/hr - <span class="amt">$9,240.00</span> over on 1,680 hrs.</li>
+        <li>$14,000.00 of direct cost (insulation 70 LF, freight balance) carries no quote or invoice in the 42-page package.</li>
+      </ul>
+    </article>
+    <article class="pillar" data-pillar="schedule" data-status="not-validated">
+      <h3><span class="pnum">02</span>Schedule review <span class="chip chip-fail">Not validated</span></h3>
+      <ul>
+        <li>55 calendar days of extension claimed at $3,180/day = <span class="amt">$174,900.00</span> (line 8).</li>
+        <li>No TIA, fragnet, or narrative in pkg p.1-42, transmittal T-1188, or <a class="plink" href="https://us02.procore.com/562949953421310/project/schedule" target="_blank" rel="noopener">Schedule update 2026-06-15 (baseline Rev 12)</a>.</li>
+        <li>Subcontract &sect;8.4 requires a TIA within 14 days of the delay event; the claim, not the silence, drives this grade.</li>
+      </ul>
+    </article>
+    <article class="pillar" data-pillar="technical" data-status="partial">
+      <h3><span class="pnum">03</span>Technical / scope review <span class="chip chip-warn">Partial</span></h3>
+      <ul>
+        <li>Reroute is a compensable change: header centerline moved 4'-6" east between <a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=690411" target="_blank" rel="noopener">M-403 Rev 4 (contract set)</a> and Rev 6.</li>
+        <li>BAS integration and re-commissioning in line 7 duplicates scope executed under <a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938471903" target="_blank" rel="noopener">CCO #003</a>.</li>
+        <li>Credit due: ASI-021 deletes 130 LF of 14" CHW branch piping from base scope; no credit priced in the COR.</li>
+      </ul>
+    </article>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section id="verdict">
+    <h2><span class="sec-num">1</span>Verdict</h2>
+    <div class="rule"></div>
+    <p><strong>Partially justified.</strong> The physical change is entitled and the majority of direct cost is documented, but $272,340.00 of direct cost fails or is unsupported and the markup structure conflicts with the subcontract. Backup covers $753,970.00 of $942,870.00 in direct cost (80.0%). The claimed 55-day schedule impact is unsubstantiated. Recommended disposition: <strong>Revise &amp; Resubmit</strong> lines 3, 4, 6, 7, 8, 9 and 12.</p>
+    <p class="sec-note" data-role="rom-context">Change Event <a class="plink" href="https://us02.procore.com/562949953421310/project/change_events/1938471120" target="_blank" rel="noopener">CE-118</a> ROM: $1,050,000.00. COR as submitted: $1,124,653.75. Delta: +$74,653.75 (+7.1% of ROM). Reference only - the ROM is a budgetary estimate, not a contractual price or a validation basis, and this delta has no effect on the Verdict.</p>
+  </section>
+
+  <section id="review-summary">
+    <h2><span class="sec-num">2</span>Review Summary</h2>
+    <div class="rule"></div>
+    <div class="tw">
+      <table class="kv">
+        <caption>Fixed rows - every review renders all of them.</caption>
+        <tbody>
+          <tr><th scope="row">Change type</th><td>Contract &amp; labor rate change with a claimed schedule-delay component</td></tr>
+          <tr><th scope="row">Pricing basis</th><td>T&amp;M labor (Exhibit C rates) with quoted materials and subtier work</td></tr>
+          <tr><th scope="row">Source of change</th><td><a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938470551" target="_blank" rel="noopener">OD-8</a> directive, implemented by <a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=771620" target="_blank" rel="noopener">ASI-021</a>; origin <a class="plink" href="https://us02.procore.com/562949953421310/project/rfi/show/1938469981" target="_blank" rel="noopener">RFI COC-183</a></td></tr>
+          <tr><th scope="row">Backup substantiates total?</th><td><span class="chip chip-warn">Partial</span> $753,970.00 of $942,870.00 direct cost (pkg p.6, p.14-27, p.31-38); derived lines carry no backup by nature</td></tr>
+          <tr><th scope="row">Cost codes correct?</th><td><span class="chip chip-warn">Partial</span> 10 of 12 lines match the commitment SOV; lines 5-6 charged to 23 21 13 vs budgeted 23 21 16 (<a class="plink" href="https://us02.procore.com/562949953421310/project/budgeting/budget_details" target="_blank" rel="noopener">Budget - ID1 Ph2</a>)</td></tr>
+          <tr><th scope="row">Markups &amp; fees per contract?</th><td><span class="chip chip-fail">Not validated</span> 15% composite OH&amp;P exceeds <a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.2</a> (10% own forces / 5% subcontracted); insurance, bond and tax rates validate</td></tr>
+          <tr><th scope="row">Schedule impact</th><td><span class="chip chip-fail">Claimed - unsubstantiated</span> 55 calendar days, $174,900.00; no TIA or fragnet located (pkg p.1-42, T-1188, <a class="plink" href="https://us02.procore.com/562949953421310/project/schedule" target="_blank" rel="noopener">Schedule</a>)</td></tr>
+          <tr data-role="rom-context"><th scope="row">Change Event ROM (reference only)</th><td>CE-118: $1,050,000.00; delta vs COR +$74,653.75 (+7.1%). Not a validation basis; no effect on the Verdict.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="document-inventory">
+    <h2><span class="sec-num">3</span>Substantiation - Document Inventory</h2>
+    <p class="sec-note">Document view of the 42-page coverage map. Four expected documents are absent; each feeds a finding. Missing rows were graded only after checking the package page index, the CO correspondence chain (OD-8, COQ-CCO #007, transmittal T-1188), and the full revision chain of RFI COC-183.</p>
+    <div class="rule"></div>
+    <div class="tw">
+      <table class="rpt">
+        <caption>One row per document the COR cites, includes, or requires - including the absent ones.</caption>
+        <thead>
+          <tr><th scope="col">#</th><th scope="col">Document</th><th scope="col">Type</th>
+              <th scope="col">Status</th><th scope="col">Supports</th><th scope="col">Cite</th></tr>
+        </thead>
+        <tbody>
+          <tr data-status="validated">
+            <td class="idx">1</td>
+            <td>COR 006 R3 cover sheet &amp; pricing breakdown</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.1-3; 12 priced lines, signed by PVJV PM</span></td>
+            <td>Lines 1-12, total</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938472651" target="_blank" rel="noopener">CCO #007</a> &middot; <a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=1&amp;end_page=3" target="_blank" rel="noopener">p.1-3</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">2</td>
+            <td>COR narrative &amp; scope letter, 2026-06-11</td>
+            <td>source/entitlement</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.4-5; cites OD-8 and ASI-021</span></td>
+            <td>Entitlement</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=4&amp;end_page=5" target="_blank" rel="noopener">pkg p.4-5</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">3</td>
+            <td>OD-8 Owner's Directive to proceed, 2026-05-06</td>
+            <td>source/entitlement</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">Correspondence record; authorizes reroute on T&amp;M</span></td>
+            <td>Entitlement, lines 1-6</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938470551" target="_blank" rel="noopener">Corr #OD-8</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">4</td>
+            <td>ASI-021 design change, transmitting M-403 Rev 6</td>
+            <td>source/entitlement</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">Issued 2026-06-02; supersedes contract Rev 4</span></td>
+            <td>Entitlement, technical</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=771620" target="_blank" rel="noopener">M-403 Rev 6</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">5</td>
+            <td>M-403 "Sub-Fab L3 CHW Distribution" Rev 4 - contract set</td>
+            <td>contract basis</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">Set "ID1 Ph2 Contract Set - IFC 2025-03-14"</span></td>
+            <td>Technical, credit</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=690411" target="_blank" rel="noopener">M-403 Rev 4</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">6</td>
+            <td>RFI COC-183 with Rev 2 response, 2026-04-28</td>
+            <td>source/entitlement</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">Full revision chain reviewed; no schedule attachment</span></td>
+            <td>Entitlement, schedule claim</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/rfi/show/1938469981" target="_blank" rel="noopener">RFI COC-183</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">7</td>
+            <td>Subcontract SC-04220-MECH, Exhibit B (markups) &amp; Exhibit C (labor rates)</td>
+            <td>contract basis</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">Executed 2025-04-22; &sect;7.2, &sect;7.4, &sect;7.5, &sect;8.4 reviewed</span></td>
+            <td>Lines 3, 9-12, schedule</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">SC-04220-MECH</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">8</td>
+            <td>Executed CCO #003 (COR-004) - BAS integration, sub-fab L3</td>
+            <td>contract basis</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">Executed 2026-03-19; same BAS points as line 7</span></td>
+            <td>Line 7</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938471903" target="_blank" rel="noopener">CCO #003</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">9</td>
+            <td>Spec 23 05 48 - Vibration &amp; Seismic Controls for HVAC Piping</td>
+            <td>contract basis</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">Seismic bracing required for new piping runs</span></td>
+            <td>Line 3, technical</td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/specification_sections/665108" target="_blank" rel="noopener">Spec 23 05 48</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">10</td>
+            <td>Field timesheets, weeks 2026-05-11 to 2026-06-05 (demolition crew)</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.14-19; 1,120 hrs, signed by Gilbane superintendent</span></td>
+            <td>Line 1</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=14&amp;end_page=19" target="_blank" rel="noopener">pkg p.14-19</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">11</td>
+            <td>Field timesheets, weeks 2026-05-18 to 2026-06-05 (weld crew)</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.20-27; 1,680 hrs at a $104.25 billed rate</span></td>
+            <td>Line 3</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=20&amp;end_page=27" target="_blank" rel="noopener">pkg p.20-27</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">12</td>
+            <td>Ferguson material quote Q-88421 - 16" CHW pipe &amp; fittings</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.6; 420 LF, firm through 2026-07-15</span></td>
+            <td>Line 2</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=6&amp;end_page=6" target="_blank" rel="noopener">pkg p.6</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">13</td>
+            <td>Thermal Spec Inc. subtier quote TS-2291 - insulation</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.31-32; covers 350 LF of the 420 LF priced</span></td>
+            <td>Line 4 (partial)</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=31&amp;end_page=32" target="_blank" rel="noopener">pkg p.31-32</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">14</td>
+            <td>Maxim Crane invoice INV-55012 - 2 shifts, 275-ton</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.33-34; at cost, no markup applied</span></td>
+            <td>Line 5</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=33&amp;end_page=34" target="_blank" rel="noopener">pkg p.33-34</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">15</td>
+            <td>Setpoint Controls quote SC-1174 - BAS integration</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-ok">Present</span><span class="why">pkg p.36-38; point list matches CCO #003 exhibit</span></td>
+            <td>Line 7</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=36&amp;end_page=38" target="_blank" rel="noopener">pkg p.36-38</a></td>
+          </tr>
+          <tr data-status="validated">
+            <td class="idx">16</td>
+            <td>Superseded COR 006 R2 pricing sheet</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-na">Present - superseded</span><span class="why">pkg p.28-30; stamped "Revised"; excluded from coverage map</span></td>
+            <td>None - R3 governs</td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=28&amp;end_page=30" target="_blank" rel="noopener">pkg p.28-30</a></td>
+          </tr>
+          <tr data-status="not-found">
+            <td class="idx">17</td>
+            <td>Time Impact Analysis / fragnet - claimed 55-day impact</td>
+            <td>schedule</td>
+            <td><span class="chip chip-none">Missing</span><span class="why">Not in pkg p.1-42, Corr COQ-CCO #007, T-1188, or RFI COC-183 chain</span></td>
+            <td>Line 8, schedule claim</td>
+            <td>Checked <a class="plink" href="https://us02.procore.com/562949953421310/project/schedule" target="_blank" rel="noopener">Schedule (baseline Rev 12, update 2026-06-15)</a> and <a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938472004" target="_blank" rel="noopener">Corr #COQ-CCO #007</a></td>
+          </tr>
+          <tr data-status="not-found">
+            <td class="idx">18</td>
+            <td>Subtier quote - insulation, remaining 70 LF (line 4)</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-none">Missing</span><span class="why">pkg p.29-32 and T-1188 vendor set contain TS-2291 only</span></td>
+            <td>Line 4 - $10,500.00</td>
+            <td>Checked <a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938472004" target="_blank" rel="noopener">Corr #COQ-CCO #007</a> attachments; no revised TS quote</td>
+          </tr>
+          <tr data-status="not-found">
+            <td class="idx">19</td>
+            <td>Freight invoice - $3,500.00 balance (line 6)</td>
+            <td>cost backup</td>
+            <td><span class="chip chip-none">Missing</span><span class="why">pkg p.35 carrier quote covers $8,900.00 of $12,400.00</span></td>
+            <td>Line 6 - $3,500.00</td>
+            <td>Checked pkg p.35 and p.39-42; no carrier invoice in <a class="plink" href="https://us02.procore.com/562949953421310/project/documents?folder_id=8812" target="_blank" rel="noopener">Documents &gt; PVJV Invoices</a></td>
+          </tr>
+          <tr data-status="not-found">
+            <td class="idx">20</td>
+            <td>Contract basis for 15% composite OH&amp;P (line 9)</td>
+            <td>contract basis</td>
+            <td><span class="chip chip-none">Missing</span><span class="why">Exhibit B &sect;7.2/&sect;7.6 set 10% / 5%; no amendment located</span></td>
+            <td>Line 9 - $54,003.50</td>
+            <td>Checked <a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">SC-04220-MECH Exhibit B</a> and executed CCO #001-#003</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="cost-breakdown">
+    <h2><span class="sec-num">4</span>Cost Breakdown &amp; Validation</h2>
+    <p class="sec-note">All 12 priced lines from the COR 006 R3 pricing sheet (pkg p.1-3), graded against the page-inventory coverage map. Percentage-based lines are graded against named subcontract exhibits.</p>
+    <div class="rule"></div>
+    <div class="tw">
+      <table class="rpt">
+        <caption>Every priced line from the COR, graded from the page-inventory coverage map. No empty cells.</caption>
+        <thead>
+          <tr><th scope="col">#</th><th scope="col">Line item</th><th scope="col" class="money">Cost</th>
+              <th scope="col">Substantiated</th><th scope="col">Validated</th>
+              <th scope="col">Reference</th><th scope="col">Recommendation</th></tr>
+        </thead>
+        <tbody>
+          <tr data-status="validated" data-amount="108080.00">
+            <td class="idx">1</td>
+            <td>Demolition &amp; removal, existing 16" CHW header<span class="why">1,120 hrs &times; $96.50/hr</span></td>
+            <td class="money">$108,080.00</td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">Signed timesheets, pkg p.14-19; hours foot to 1,120</span></td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">$96.50 = Exhibit C journeyman fitter, ST</span></td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=14&amp;end_page=19" target="_blank" rel="noopener">pkg p.14-19</a> &middot; <a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit C</a></td>
+            <td class="rec">None - line closed.</td>
+          </tr>
+          <tr data-status="validated" data-amount="286400.00">
+            <td class="idx">2</td>
+            <td>Pipe &amp; fittings, 16" CHW header, 420 LF<span class="why">Ferguson quote Q-88421, firm</span></td>
+            <td class="money">$286,400.00</td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">Quote pkg p.6 matches take-off pkg p.7-13</span></td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">$681.90/LF within 3% of ID1 CHW benchmark</span></td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=6&amp;end_page=6" target="_blank" rel="noopener">pkg p.6</a></td>
+            <td class="rec">None - line closed.</td>
+          </tr>
+          <tr data-status="not-validated" data-amount="175140.00">
+            <td class="idx">3</td>
+            <td>Welding &amp; seismic pipe supports<span class="why">1,680 hrs &times; $104.25/hr</span></td>
+            <td class="money">$175,140.00</td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">Signed timesheets, pkg p.20-27; hours foot to 1,680</span></td>
+            <td><span class="chip chip-fail">Not validated</span><span class="why">Billed $104.25/hr vs Exhibit C welder $98.75/hr; +$9,240.00</span></td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=20&amp;end_page=27" target="_blank" rel="noopener">pkg p.20-27</a> &middot; <a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit C</a></td>
+            <td class="rec">Reprice 1,680 hrs at $98.75; deduct $9,240.00.</td>
+          </tr>
+          <tr data-status="partial" data-amount="63000.00">
+            <td class="idx">4</td>
+            <td>Pipe insulation &amp; jacketing, 420 LF<span class="why">420 LF &times; $150.00/LF, subtier</span></td>
+            <td class="money">$63,000.00</td>
+            <td><span class="chip chip-warn">Partial</span><span class="why">Quote TS-2291 pkg p.31-32 covers 350 LF ($52,500.00)</span></td>
+            <td><span class="chip chip-warn">Partial</span><span class="why">$150.00/LF matches quote; 70 LF has no priced basis</span></td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=31&amp;end_page=32" target="_blank" rel="noopener">pkg p.31-32</a></td>
+            <td class="rec">Obtain revised Thermal Spec quote for 70 LF ($10,500.00) from Gilbane.</td>
+          </tr>
+          <tr data-status="validated" data-amount="48750.00">
+            <td class="idx">5</td>
+            <td>Crane &amp; rigging, 275-ton, 2 shifts<span class="why">Maxim invoice INV-55012, at cost</span></td>
+            <td class="money">$48,750.00</td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">Vendor invoice pkg p.33-34; shift log attached</span></td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">At cost, no markup, per Exhibit B &sect;7.3</span></td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=33&amp;end_page=34" target="_blank" rel="noopener">pkg p.33-34</a></td>
+            <td class="rec">Confirm cost code 23 21 16 recode with Micron cost engineering.</td>
+          </tr>
+          <tr data-status="partial" data-amount="12400.00">
+            <td class="idx">6</td>
+            <td>Freight &amp; delivery, header spools<span class="why">Carrier quote + unpriced balance</span></td>
+            <td class="money">$12,400.00</td>
+            <td><span class="chip chip-warn">Partial</span><span class="why">Quote pkg p.35 covers $8,900.00; $3,500.00 undocumented</span></td>
+            <td><span class="chip chip-warn">Partial</span><span class="why">Documented portion at cost; balance has no basis</span></td>
+            <td><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=35&amp;end_page=35" target="_blank" rel="noopener">pkg p.35</a></td>
+            <td class="rec">Obtain carrier invoice for the $3,500.00 balance from PVJV.</td>
+          </tr>
+          <tr data-status="not-validated" data-amount="74200.00">
+            <td class="idx">7</td>
+            <td>BAS controls integration &amp; re-commissioning<span class="why">Setpoint quote SC-1174</span></td>
+            <td class="money">$74,200.00</td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">Subtier quote pkg p.36-38; 46 points priced</span></td>
+            <td><span class="chip chip-fail">Not validated</span><span class="why">Same 46 points executed under CCO #003; duplicate, not a change</span></td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938471903" target="_blank" rel="noopener">CCO #003</a> &middot; <a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=36&amp;end_page=38" target="_blank" rel="noopener">pkg p.36-38</a></td>
+            <td class="rec">Delete $74,200.00; have Gilbane confirm no point-list delta vs CCO #003.</td>
+          </tr>
+          <tr data-status="not-validated" data-amount="174900.00">
+            <td class="idx">8</td>
+            <td>Extended general conditions, 55 calendar days<span class="why">55 days &times; $3,180.00/day</span></td>
+            <td class="money">$174,900.00</td>
+            <td><span class="chip chip-fail">Not validated</span><span class="why">No TIA, fragnet, or narrative in pkg p.1-42 or COQ-CCO #007</span></td>
+            <td><span class="chip chip-fail">Not validated</span><span class="why">&sect;8.4 requires a TIA within 14 days; daily rate also unpriced in Exhibit B</span></td>
+            <td>Checked <a class="plink" href="https://us02.procore.com/562949953421310/project/schedule" target="_blank" rel="noopener">Schedule Rev 12</a>, <a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938472004" target="_blank" rel="noopener">COQ-CCO #007</a>, RFI COC-183 chain</td>
+            <td class="rec">Obtain TIA per &sect;8.4 or withdraw $174,900.00.</td>
+          </tr>
+          <tr class="subtotal" data-status="partial">
+            <td class="idx">-</td>
+            <td>Subtotal - direct cost (lines 1-8)</td>
+            <td class="money">$942,870.00</td>
+            <td>Partial - backup covers $753,970.00 of $942,870.00 (80.0%)</td>
+            <td>Partial - 5 of 8 lines validated; $259,600.00 fails, $14,000.00 unsupported</td>
+            <td>Sum verified with calculate tool; pkg p.1-3</td>
+            <td class="rec">N/A - subtotal; see per-line recommendations.</td>
+          </tr>
+          <tr data-status="not-validated" data-amount="141430.50">
+            <td class="idx">9</td>
+            <td>Overhead &amp; profit, 15.00% composite<span class="why">15.00% &times; $942,870.00</span></td>
+            <td class="money">$141,430.50</td>
+            <td><span class="chip chip-na">N/A - derived</span><span class="why">15.00% of $942,870.00 base; no backup expected</span></td>
+            <td><span class="chip chip-fail">Not validated</span><span class="why">Exhibit B &sect;7.2 allows 10% own forces / 5% subcontracted = $87,427.00; +$54,003.50</span></td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.2</a></td>
+            <td class="rec">Recompute OH&amp;P on the &sect;7.2 tiers; deduct $54,003.50 as submitted.</td>
+          </tr>
+          <tr data-status="validated" data-amount="9428.70">
+            <td class="idx">10</td>
+            <td>Insurance, 1.00% of direct cost<span class="why">1.00% &times; $942,870.00</span></td>
+            <td class="money">$9,428.70</td>
+            <td><span class="chip chip-na">N/A - derived</span><span class="why">1.00% of $942,870.00 base; no backup expected</span></td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">1.00% matches Exhibit B &sect;7.4</span></td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.4</a></td>
+            <td class="rec">None - line closed; rebase after direct-cost adjustments.</td>
+          </tr>
+          <tr data-status="validated" data-amount="9216.55">
+            <td class="idx">11</td>
+            <td>Payment &amp; performance bond, 0.85%<span class="why">0.85% &times; $1,084,300.50</span></td>
+            <td class="money">$9,216.55</td>
+            <td><span class="chip chip-na">N/A - derived</span><span class="why">0.85% of direct + OH&amp;P; no backup expected</span></td>
+            <td><span class="chip chip-ok">Validated</span><span class="why">0.85% matches bond rider, Exhibit B &sect;7.5</span></td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.5</a></td>
+            <td class="rec">None - line closed; rebase after OH&amp;P recompute.</td>
+          </tr>
+          <tr data-status="partial" data-amount="21708.00">
+            <td class="idx">12</td>
+            <td>Idaho sales &amp; use tax, 6.00% on materials<span class="why">6.00% &times; $361,800.00 material base</span></td>
+            <td class="money">$21,708.00</td>
+            <td><span class="chip chip-na">N/A - derived</span><span class="why">6.00% of $361,800.00 (lines 2, 4, 6); no backup expected</span></td>
+            <td><span class="chip chip-warn">Partial</span><span class="why">6.00% rate correct; base includes $10,500.00 undocumented insulation (+$630.00)</span></td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.7</a></td>
+            <td class="rec">Rebase tax once the 70 LF insulation quote is received.</td>
+          </tr>
+          <tr class="total" data-status="partial" data-amount="1124653.75">
+            <td class="idx">-</td>
+            <td>Total - COR as submitted<span class="why">Lines 1-12; reconciled with the calculate tool against pkg p.1-3</span></td>
+            <td class="money">$1,124,653.75</td>
+            <td><span class="chip chip-warn">Partial</span><span class="why">Backup covers $753,970.00 of $942,870.00 direct cost (80.0%)</span></td>
+            <td><span class="chip chip-warn">Partial</span><span class="why">7 of 12 lines partial or not validated; $355,875.31 reduction / hold recommended</span></td>
+            <td><a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938472651" target="_blank" rel="noopener">CCO #007</a> &middot; <a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=1&amp;end_page=3" target="_blank" rel="noopener">pkg p.1-3</a></td>
+            <td class="rec">Revise &amp; Resubmit lines 3, 4, 6, 7, 8, 9, 12.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="recon">
+      <h3>Illustrative recommended position - arithmetic roll-up of the findings above</h3>
+      <table>
+        <tbody>
+          <tr><td>Direct cost as submitted (lines 1-8)</td><td class="money">$942,870.00</td></tr>
+          <tr class="neg"><td>Less duplicate BAS integration - executed under CCO #003 (line 7)</td><td class="money">($74,200.00)</td></tr>
+          <tr class="neg"><td>Less unsubstantiated extended general conditions (line 8)</td><td class="money">($174,900.00)</td></tr>
+          <tr class="neg"><td>Less welder rate overage - 1,680 hrs &times; $5.50 (line 3)</td><td class="money">($9,240.00)</td></tr>
+          <tr class="neg"><td>Hold - unquoted insulation, 70 LF (line 4)</td><td class="money">($10,500.00)</td></tr>
+          <tr class="neg"><td>Hold - unsupported freight balance (line 6)</td><td class="money">($3,500.00)</td></tr>
+          <tr class="sum"><td>Adjusted direct cost</td><td class="money">$670,530.00</td></tr>
+          <tr><td>OH&amp;P per Exhibit B &sect;7.2 - 10% own forces ($618,030.00) + 5% subcontracted ($52,500.00)</td><td class="money">$64,428.00</td></tr>
+          <tr><td>Insurance, 1.00% of adjusted direct</td><td class="money">$6,705.30</td></tr>
+          <tr><td>Payment &amp; performance bond, 0.85% of $734,958.00</td><td class="money">$6,247.14</td></tr>
+          <tr><td>Idaho sales &amp; use tax, 6.00% of $347,800.00 documented materials</td><td class="money">$20,868.00</td></tr>
+          <tr class="sum"><td>Recommended not-to-exceed position</td><td class="money">$768,778.44</td></tr>
+          <tr class="sum"><td>Variance vs COR as submitted</td><td class="money">($355,875.31)</td></tr>
+        </tbody>
+      </table>
+      <p class="foot">Arithmetic roll-up of the per-line findings, computed with the calculate tool - not an approval, not a negotiating position, and not a substitute for PVJV repricing. Held amounts convert to payable cost once the missing backup is produced.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <h2><span class="sec-num">5</span>Findings</h2>
+    <p class="sec-note">Exceptions only - objections first, then open items with a resolution path. Validated lines are carried in the Cost Breakdown table and are not repeated here.</p>
+    <div class="rule"></div>
+    <ul class="findings">
+      <li data-status="not-validated" data-pillar="cost">
+        <span class="badge" data-pillar="cost">Cost</span>
+        Line 9 applies a flat 15.00% composite OH&amp;P with no contractual basis; Exhibit B &sect;7.2 sets 10% on own forces and 5% on subcontracted work, overstating markup by <span class="amt">$54,003.50</span> as submitted. <a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.2</a>
+      </li>
+      <li data-status="not-validated" data-pillar="cost">
+        <span class="badge" data-pillar="cost">Cost</span>
+        Line 3 bills 1,680 welder hours at $104.25/hr against the Exhibit C rate of $98.75/hr - <span class="amt">$9,240.00</span> over; hours themselves are fully supported. <a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=20&amp;end_page=27" target="_blank" rel="noopener">pkg p.20-27</a>
+      </li>
+      <li data-status="not-validated" data-pillar="technical">
+        <span class="badge" data-pillar="technical">Technical</span>
+        Line 7 re-prices the 46-point BAS integration and re-commissioning already executed under CCO #003 (COR-004, 2026-03-19) - <span class="amt">$74,200.00</span> duplicate scope, resolved in a previous COR. <a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938471903" target="_blank" rel="noopener">CCO #003</a>
+      </li>
+      <li data-status="not-validated" data-pillar="schedule">
+        <span class="badge" data-pillar="schedule">Schedule</span>
+        The COR claims a 55-calendar-day impact and prices <span class="amt">$174,900.00</span> of extended general conditions, but no TIA, fragnet, or schedule narrative exists in the package, the correspondence chain, or the project schedule; a claimed impact must be substantiated even though silence on schedule would not be an objection. <a class="plink" href="https://us02.procore.com/562949953421310/project/schedule" target="_blank" rel="noopener">Schedule Rev 12</a>
+      </li>
+      <li data-status="not-validated" data-pillar="technical">
+        <span class="badge" data-pillar="technical">Technical</span>
+        ASI-021 deletes 130 LF of 14" CHW branch piping shown on contract drawing M-403 Rev 4, and the COR takes no credit for the deleted scope - a missing credit, unpriced in the submission. <a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=690411" target="_blank" rel="noopener">M-403 Rev 4 vs Rev 6</a>
+      </li>
+      <li data-status="partial" data-pillar="cost">
+        <span class="badge" data-pillar="cost">Cost</span>
+        Line 4 prices 420 LF of insulation but quote TS-2291 covers 350 LF, leaving <span class="amt">$10,500.00</span> without a priced basis. <a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=31&amp;end_page=32" target="_blank" rel="noopener">pkg p.31-32</a>
+      </li>
+      <li data-status="partial" data-pillar="cost">
+        <span class="badge" data-pillar="cost">Cost</span>
+        Line 6 prices $12,400.00 of freight against a carrier quote of $8,900.00, leaving <span class="amt">$3,500.00</span> unsupported. <a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=35&amp;end_page=35" target="_blank" rel="noopener">pkg p.35</a>
+      </li>
+      <li data-status="partial" data-pillar="cost">
+        <span class="badge" data-pillar="cost">Cost</span>
+        Line 12 applies the correct 6.00% Idaho rate to a material base that includes the undocumented $10,500.00 of insulation, overstating tax by <span class="amt">$630.00</span> until that quote is produced. <a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">Exhibit B &sect;7.7</a>
+      </li>
+      <li data-status="open" data-pillar="cost">
+        <span class="badge" data-pillar="cost">Open</span>
+        Lines 5-6 are charged to cost code 23 21 13 while the CHW header scope is budgeted to 23 21 16 - <span class="amt">$61,150.00</span> of coding to confirm with Micron cost engineering before the CO is priced into the budget. <a class="plink" href="https://us02.procore.com/562949953421310/project/budgeting/budget_details" target="_blank" rel="noopener">Budget - ID1 Ph2</a>
+      </li>
+    </ul>
+  </section>
+
+  <section id="next-steps">
+    <h2><span class="sec-num">6</span>Next Steps</h2>
+    <div class="rule"></div>
+    <ol class="steps">
+      <li>Return COR 006 R3 to Gilbane as <strong>Revise &amp; Resubmit</strong>, itemizing lines 3, 4, 6, 7, 8, 9 and 12.</li>
+      <li>Require the Time Impact Analysis and fragnet for the 55-day claim per Subcontract &sect;8.4, or withdrawal of the $174,900.00 extended general conditions.</li>
+      <li>Have Gilbane confirm the line 7 BAS point list against executed CCO #003 and delete $74,200.00 if there is no scope delta.</li>
+      <li>Request a priced credit from PVJV for the 130 LF of 14" CHW branch piping deleted by ASI-021.</li>
+      <li>Direct repricing of markups on the Exhibit B &sect;7.2 tiers and rebase the Idaho use tax on documented materials only.</li>
+    </ol>
+  </section>
+
+  <section id="references">
+    <h2><span class="sec-num">7</span>Procore References</h2>
+    <p class="sec-note">Every Procore record relied on in this review. Links open the source record in the connected Procore project.</p>
+    <div class="rule"></div>
+    <ul class="refs">
+      <li><span class="rtype">Commitment change order</span><a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938472651" target="_blank" rel="noopener">CCO #007 - COR 006 R3, $1,124,653.75</a></li>
+      <li><span class="rtype">Commitment change order</span><a class="plink" href="https://us02.procore.com/562949953421310/project/change_orders/commitment_change_orders/1938471903" target="_blank" rel="noopener">CCO #003 - COR-004 BAS integration (executed)</a></li>
+      <li><span class="rtype">Commitment / subcontract</span><a class="plink" href="https://us02.procore.com/562949953421310/project/commitments/contracts/1938470004" target="_blank" rel="noopener">SC-04220-MECH - PVJV Mechanical, Exhibits B &amp; C</a></li>
+      <li><span class="rtype">Change event</span><a class="plink" href="https://us02.procore.com/562949953421310/project/change_events/1938471120" target="_blank" rel="noopener">CE-118 - ROM $1,050,000.00 (reference only)</a></li>
+      <li><span class="rtype">Correspondence</span><a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938470551" target="_blank" rel="noopener">Corr #OD-8 - Owner's Directive, 2026-05-06</a></li>
+      <li><span class="rtype">Correspondence</span><a class="plink" href="https://us02.procore.com/562949953421310/project/correspondence/items/1938472004" target="_blank" rel="noopener">Corr #COQ-CCO #007 - transmittal T-1188</a></li>
+      <li><span class="rtype">RFI</span><a class="plink" href="https://us02.procore.com/562949953421310/project/rfi/show/1938469981" target="_blank" rel="noopener">RFI COC-183 - CHW header conflict (Rev 2 response)</a></li>
+      <li><span class="rtype">Drawing - contract set</span><a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=690411" target="_blank" rel="noopener">M-403 Rev 4 - ID1 Ph2 Contract Set, IFC 2025-03-14</a></li>
+      <li><span class="rtype">Drawing - revision</span><a class="plink" href="https://us02.procore.com/562949953421310/project/drawing_areas/44210/drawing_logs?drawing_revision_id=771620" target="_blank" rel="noopener">M-403 Rev 6 - issued with ASI-021, 2026-06-02</a></li>
+      <li><span class="rtype">Specification</span><a class="plink" href="https://us02.procore.com/562949953421310/project/specification_sections/665108" target="_blank" rel="noopener">23 05 48 - Vibration &amp; Seismic Controls for HVAC Piping</a></li>
+      <li><span class="rtype">Schedule</span><a class="plink" href="https://us02.procore.com/562949953421310/project/schedule" target="_blank" rel="noopener">Project schedule - baseline Rev 12, update 2026-06-15</a></li>
+      <li><span class="rtype">Budget</span><a class="plink" href="https://us02.procore.com/562949953421310/project/budgeting/budget_details" target="_blank" rel="noopener">Budget - ID1 Ph2, cost codes 23 21 13 / 23 21 16</a></li>
+      <li><span class="rtype">Documents</span><a class="plink" href="https://us02.procore.com/562949953421310/project/documents?folder_id=8812" target="_blank" rel="noopener">Documents &gt; PVJV Invoices (freight search)</a></li>
+      <li><span class="rtype">COR package file</span><a class="dlink" href="https://app.datagrid.com/files?fileId=fil_01JC6R2M4K8QD0COR006R3&amp;start_page=1&amp;end_page=42" target="_blank" rel="noopener">COR 006 R3 package - 42 pp. indexed</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="prov">
+      <span>Agent: Micron COR Review Agent</span>
+      <span>Generated: 2026-06-18 14:22 MDT</span>
+      <span>Data source: Procore only (ID1 Fab Expansion - Phase 2, company 562949953421310)</span>
+      <span>Package indexed: 42 pp.</span>
+    </p>
+    <p class="disclaimer">First-pass analysis only - Micron decides. Deep-dive detailed report available on request.</p>
+  </div>
+</footer>
+
+<script type="application/json" id="cor-review-data">
+{
+  "schema": "micron.cor-review/1.0",
+  "co_number": "CCO #007 / COR 006 R3",
+  "subject": "Sub-Fab L3 Chilled Water Header Reroute",
+  "contractor": "PVJV Mechanical",
+  "project": "ID1 Fab Expansion - Phase 2",
+  "commitment": "SC-04220-MECH",
+  "generated": "2026-06-18T14:22:00-06:00",
+  "verdict": "Partially justified",
+  "pricing_basis": "T&M labor with quoted materials",
+  "change_type": "Contract & labor rate change with claimed schedule delay",
+  "cor_total": 1124653.75,
+  "direct_cost_subtotal": 942870.00,
+  "backup_covered": 753970.00,
+  "recommended_position": 768778.44,
+  "recommended_adjustment": 355875.31,
+  "package_pages": 42,
+  "pillars": {
+    "cost": {"status": "Partial", "note": "15% composite OH&P exceeds Exhibit B tiers; $14,000 of direct cost unquoted"},
+    "schedule": {"status": "Not validated", "note": "55-day claim and $174,900 extended GC with no TIA or fragnet in Procore"},
+    "technical": {"status": "Partial", "note": "Reroute entitled by ASI-021; BAS scope duplicates CCO #003; credit due for 130 LF deleted piping"}
+  },
+  "change_event_rom": {"ce": "CE-118", "amount": 1050000.00, "delta_vs_cor": 74653.75, "delta_pct": 7.11, "basis": "reference only"},
+  "schedule_claim": {"claimed": true, "days": 55, "amount": 174900.00, "substantiated": false},
+  "line_items": [
+    {"n": 1, "description": "Demolition & removal, existing 16in CHW header", "cost": 108080.00, "substantiated": "Validated", "validated": "Validated", "backup_covered": 108080.00, "pillar": "cost"},
+    {"n": 2, "description": "Pipe & fittings, 16in CHW header, 420 LF", "cost": 286400.00, "substantiated": "Validated", "validated": "Validated", "backup_covered": 286400.00, "pillar": "cost"},
+    {"n": 3, "description": "Welding & seismic pipe supports", "cost": 175140.00, "substantiated": "Validated", "validated": "Not validated", "backup_covered": 175140.00, "pillar": "cost"},
+    {"n": 4, "description": "Pipe insulation & jacketing, 420 LF", "cost": 63000.00, "substantiated": "Partial", "validated": "Partial", "backup_covered": 52500.00, "pillar": "cost"},
+    {"n": 5, "description": "Crane & rigging, 275-ton, 2 shifts", "cost": 48750.00, "substantiated": "Validated", "validated": "Validated", "backup_covered": 48750.00, "pillar": "cost"},
+    {"n": 6, "description": "Freight & delivery, header spools", "cost": 12400.00, "substantiated": "Partial", "validated": "Partial", "backup_covered": 8900.00, "pillar": "cost"},
+    {"n": 7, "description": "BAS controls integration & re-commissioning", "cost": 74200.00, "substantiated": "Validated", "validated": "Not validated", "backup_covered": 74200.00, "pillar": "technical"},
+    {"n": 8, "description": "Extended general conditions, 55 calendar days", "cost": 174900.00, "substantiated": "Not validated", "validated": "Not validated", "backup_covered": 0.00, "pillar": "schedule"},
+    {"n": 9, "description": "Overhead & profit, 15.00% composite", "cost": 141430.50, "substantiated": "N/A - derived", "validated": "Not validated", "derived": true, "pillar": "cost"},
+    {"n": 10, "description": "Insurance, 1.00% of direct cost", "cost": 9428.70, "substantiated": "N/A - derived", "validated": "Validated", "derived": true, "pillar": "cost"},
+    {"n": 11, "description": "Payment & performance bond, 0.85%", "cost": 9216.55, "substantiated": "N/A - derived", "validated": "Validated", "derived": true, "pillar": "cost"},
+    {"n": 12, "description": "Idaho sales & use tax, 6.00% on materials", "cost": 21708.00, "substantiated": "N/A - derived", "validated": "Partial", "derived": true, "pillar": "cost"}
+  ],
+  "document_gaps": [
+    {"document": "Time Impact Analysis / fragnet - 55-day claim", "status": "Missing", "supports": "Line 8", "amount": 174900.00},
+    {"document": "Subtier quote - insulation, 70 LF", "status": "Missing", "supports": "Line 4", "amount": 10500.00},
+    {"document": "Freight invoice - balance", "status": "Missing", "supports": "Line 6", "amount": 3500.00},
+    {"document": "Contract basis for 15% composite OH&P", "status": "Missing", "supports": "Line 9", "amount": 54003.50}
+  ],
+  "findings": [
+    {"pillar": "cost", "status": "Not validated", "amount": 54003.50, "summary": "15% composite OH&P exceeds Exhibit B 7.2 tiers (10% own forces / 5% subcontracted)"},
+    {"pillar": "cost", "status": "Not validated", "amount": 9240.00, "summary": "Welder rate $104.25/hr vs Exhibit C $98.75/hr on 1,680 hrs"},
+    {"pillar": "technical", "status": "Not validated", "amount": 74200.00, "summary": "BAS integration duplicates scope executed under CCO #003"},
+    {"pillar": "schedule", "status": "Not validated", "amount": 174900.00, "summary": "55-day impact claimed with no TIA, fragnet, or narrative in Procore"},
+    {"pillar": "technical", "status": "Not validated", "amount": 0, "summary": "No credit taken for 130 LF of 14in branch piping deleted by ASI-021"},
+    {"pillar": "cost", "status": "Partial", "amount": 10500.00, "summary": "Insulation quote covers 350 of 420 LF priced"},
+    {"pillar": "cost", "status": "Partial", "amount": 3500.00, "summary": "Freight priced $12,400 against an $8,900 carrier quote"},
+    {"pillar": "cost", "status": "Partial", "amount": 630.00, "summary": "Use tax base includes the undocumented insulation amount"},
+    {"pillar": "cost", "status": "Open", "amount": 61150.00, "summary": "Lines 5-6 coded to 23 21 13 vs budgeted 23 21 16"}
+  ],
+  "next_steps": [
+    "Return COR 006 R3 as Revise & Resubmit for lines 3, 4, 6, 7, 8, 9, 12",
+    "Require TIA and fragnet per Subcontract 8.4 or withdrawal of $174,900",
+    "Confirm line 7 BAS point list against executed CCO #003",
+    "Request priced credit for 130 LF of deleted 14in branch piping",
+    "Reprice markups on Exhibit B 7.2 tiers and rebase Idaho use tax"
+  ],
+  "guardrail": "Analysis only - no approval, rejection, or Procore write-back."
+}
+</script>
+</body>
+</html>

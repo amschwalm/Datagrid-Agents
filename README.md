@@ -119,6 +119,7 @@ by the Lessons Learned web app.
 | `schedule_risk` | Critical-path and delay risk analysis |
 | `daily_report_summarizer` | Field report → PM/owner summary |
 | `change_order_analyst` | COR documentation and pricing gap review |
+| `cor_review_agent` | Micron owner-side COR review → branded HTML report (cost / schedule / technical) |
 
 Definitions live in `src/datagrid_agents/definitions/*.yaml`. Each file sets:
 
@@ -127,6 +128,59 @@ Definitions live in `src/datagrid_agents/definitions/*.yaml`. Each file sets:
 - `planning_prompt` — multi-step approach
 - `tools` — Datagrid tools (e.g. `semantic_search`, `pdf_extraction`)
 - `agent_model` — defaults to `magpie-2.5` (Execute tier)
+- `llm_model` — optional; pins the underlying model. Datagrid defaults to a lite model, which is
+  fine for short answers but drops long render contracts, so `cor_review_agent` pins
+  `claude-opus-4-8`
+
+Long prompts can live outside the YAML: use `system_prompt_file`, `custom_prompt_file`, or
+`planning_prompt_file` with a path relative to `src/datagrid_agents/`, and inline other files
+into them with a `{{include: relative/path}}` line. `cor_review_agent` uses both so its
+render contract is the shipped HTML template rather than a copy pasted into a prompt.
+
+## COR review report (HTML)
+
+`cor_review_agent` replaces chat tables with one self-contained, Procore-branded HTML document:
+verdict deck, cost/schedule/technical pillar cards, document inventory, per-line cost validation
+with live Procore and Datagrid links, findings, next steps, and a JSON data island so reasoning
+models can read the same figures.
+
+The agent does not write that HTML. It emits a compact **review payload** and
+`reports/render.py` builds the document. Asking the live agent for the full ~43k-character
+document did not return within 25 minutes and drifted off the template when it did respond;
+the payload is a third of the size, and the renderer derives every subtotal, total, coverage
+percentage, exception count, ROM delta, and the whole data island, so the arithmetic can never
+disagree with the prose.
+
+```bash
+datagrid-agents report payload --out payload.json            # example payload (the agent's output)
+datagrid-agents report render payload.json --out report.html # build the branded report
+datagrid-agents report validate report.html                  # check the render contract
+datagrid-agents report sample --out cor_review_sample.html   # fully populated mockup
+datagrid-agents report template --out cor_review_template.html
+```
+
+`report render` validates before it writes, so a payload with an off-vocabulary status, an empty
+cell, a missing pillar, or backup exceeding direct cost fails loudly instead of producing a
+misleading document.
+
+`report validate` enforces what can be checked mechanically — required sections, the status
+vocabulary (`Validated` / `Partial` / `Not validated` / `Not found in Procore`), no empty table
+cells, Procore/Datagrid-only links, a self-contained document, the exact closing disclaimer, and
+arithmetic that reconciles against the data island. Use it on agent output before it goes to a
+change manager.
+
+The example payload is inlined into the agent's custom prompt with `{{include:}}`, so the shape
+the agent is shown is the same file the tests render — edit it and the prompt follows on the next
+`datagrid-agents sync`. Assets:
+
+```text
+src/datagrid_agents/reports/templates/cor_review_report.html   # branding: head + style block
+src/datagrid_agents/reports/render.py                          # payload -> report
+src/datagrid_agents/reports/validator.py                       # render-contract checks
+src/datagrid_agents/reports/samples/cor_review_payload_harken.json   # example agent payload
+src/datagrid_agents/reports/samples/cor_review_report_sample.html    # fully populated mockup
+src/datagrid_agents/prompts/cor_review_agent/{system,planning,custom}.md
+```
 
 ## Add your own agent
 
@@ -155,6 +209,8 @@ src/datagrid_agents/
   registry.py            # load YAML definitions
   service.py             # create / sync / converse
   definitions/           # construction agent blueprints
+  prompts/               # long-form prompt bodies (markdown, with {{include:}})
+  reports/               # COR review HTML template, sample, and validator
   orchestrator/          # stdlib skill adapter + lessons-multipass lenses
 server/
   app.py                 # Lessons Learned FastAPI

@@ -1,0 +1,337 @@
+{
+  "schema": "micron.cor-review/1.0",
+  "generated": "2026-09-23 14:05 PDT",
+  "agent_name": "Micron COR Review Agent",
+  "identity": {
+    "co_number": "COR #08-90-0019",
+    "subject": "Stair 3 Alternate Pricing Breakout",
+    "contractor": "Pacific Structures",
+    "pricing_basis": "Lump Sum, self-perform plus sub-tier",
+    "project": "1040 - The Harken Apartments (5150 ECR)",
+    "project_number": "1040",
+    "owner": "Owner-side review",
+    "gc": "BASE Builders",
+    "commitment": "SC-1040-004 - PSI Concrete",
+    "date_received": "2026-04-18",
+    "package_pages": 2,
+    "co_url": "https://app.procore.com/2295239/project/change_events/events"
+  },
+  "limitations": "Sub-tier quotes (PSG stair pan/rail, Landavazo) are not in the package; the cover sheet marks those lines \"Revising with subs / Pending Revision\". The subcontract markup exhibit was not retrievable, so markup rates were checked against Pacific Structures' other CORs on this project rather than against a named exhibit.",
+  "verdict": {
+    "token": "Partially justified",
+    "reason": "Entitlement for the Stair 3 alternate is supported and the self-performed scope reconciles line by line, but 46% of the ask is sub-tier work the cover sheet itself marks [Pending Revision](https://app.procore.com/2295239/project/change_events/events), with no quotes attached.",
+    "schedule": null,
+    "paragraph": "**Partially justified.** The change is entitled and the self-performed PSI scope of $17,938.00 plus its 15% fee traces to the pricing sheet, but $16,570.00 of sub-tier work and the $828.50 fee riding on it have no attached quotes. Recommended disposition: **Revise & Resubmit** lines 4 and 5.",
+    "rom": "Change Event [CE #391](https://app.procore.com/2295239/project/change_events/events) carries $38,027.00 against $38,027.20 of extended line items; delta $0.20 (0.0%), a rounding difference on the cover sheet. Reference only - the ROM is a budgetary estimate, not a contractual price or a validation basis, and it has no effect on the Verdict."
+  },
+  "metric_notes": {
+    "total": "6 priced lines, streamlined review under $50K",
+    "exceptions": "Sub-tier scope and the fee that rides on it",
+    "gaps": "PSG and Landavazo quotes, markup exhibit",
+    "hold": "45.8% of submitted total, held pending quotes"
+  },
+  "pillars": {
+    "cost": {
+      "status": "Partial",
+      "note": "Self-perform reconciles; $17,398.50 of sub-tier scope and fee is unquoted",
+      "points": [
+        "Total reconciles exactly: $17,938.00 self-perform + $2,690.70 fee + $16,570.00 sub-tier + $828.50 sub-tier fee = $38,027.20, against $38,027.00 as submitted.",
+        "$16,570.00 of sub-tier work carries no quote; the cover sheet marks it \"Revising with subs / Pending Revision\".",
+        "15% own-cost and 5% sub-tier fee rates match Pacific Structures' other Harken CORs, but no subcontract exhibit was retrievable to confirm them."
+      ]
+    },
+    "schedule": {
+      "status": "Not claimed",
+      "note": "No time impact asserted; absence is not an objection",
+      "points": [
+        "The COR cover sheet states Schedule Impact: N/A. No extension, extended general conditions, escalation, or acceleration is claimed.",
+        "Nothing to substantiate: the absence of a schedule claim is not an objection and is not grounds for rejection."
+      ]
+    },
+    "technical": {
+      "status": "Validated",
+      "note": "Owner-driven Stair 3 alternate within the PSI structural concrete scope",
+      "points": [
+        "Alternate pricing breakout for cast-in-place Stair 3 sits within the PSI Concrete commitment scope, cost code 03-31-00 Structural Concrete.",
+        "No overlap found with previously executed change orders on [commitment SC-1040-004](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040).",
+        "RFI #457 (CIP Stair 3 clarifications) appears in the project COR log as related context for the change."
+      ]
+    }
+  },
+  "review_summary": {
+    "change_type": "Contract scope change - owner-directed alternate pricing breakout",
+    "pricing_basis": "Lump Sum: self-performed concrete plus sub-tier stair pan, rail, and finishes",
+    "source_of_change": "Change Event [CE #391](https://app.procore.com/2295239/project/change_events/events); RFI #457 CIP Stair 3 clarifications as related context",
+    "backup": {
+      "status": "Partial",
+      "text": "$17,938.00 of $34,508.00 direct cost substantiated (52.0%); the PSI Pricing Sheet covers self-perform only"
+    },
+    "cost_codes": {
+      "status": "Validated",
+      "text": "03-31-00 Structural Concrete matches the [PSI Concrete commitment](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040)"
+    },
+    "markups": {
+      "status": "Not found in Procore",
+      "text": "15% / 5% rates are consistent across Pacific Structures' Harken CORs, but no rate exhibit was retrievable on the commitment; precedent is corroboration, not a contractual basis"
+    },
+    "schedule": {
+      "status": "Not claimed",
+      "text": "Cover sheet states Schedule Impact: N/A; absence of a claim is not an objection"
+    },
+    "rom": "CE #391: $38,027.00; delta vs COR $0.20 (0.0%), a cover-sheet rounding difference. Not a validation basis; no effect on the Verdict."
+  },
+  "change_event_rom": {
+    "ce": "CE #391",
+    "amount": 38027.0,
+    "delta_pct": 0.0,
+    "basis": "reference only"
+  },
+  "schedule_claim": {
+    "claimed": false
+  },
+  "document_inventory": {
+    "note": "Two-page package indexed cover-to-cover. Two expected documents are absent; each feeds a finding. Missing rows were graded only after checking the package pages, the Change Event #391 attachment set, and the commitment's executed change orders.",
+    "rows": [
+      {
+        "document": "COR #08-90-0019 cover sheet - Stair 3 Alternate Pricing Breakout",
+        "type": "cost backup",
+        "status": "Present - pkg p.1",
+        "where": "Lists 6 priced lines and a Total Request of $38,027.00",
+        "supports": "Lines 1-5, total",
+        "cite": "[CE #391 attachment package](https://app.procore.com/2295239/project/change_events/events)"
+      },
+      {
+        "document": "PSI Pricing Sheet - labor, concrete, material and equipment",
+        "type": "cost backup",
+        "status": "Present - pkg p.2",
+        "where": "Quantity x rate detail behind the $17,938.00 self-perform subtotal",
+        "supports": "Lines 1, 2, 3",
+        "cite": "[CE #391 attachment package](https://app.procore.com/2295239/project/change_events/events)"
+      },
+      {
+        "document": "Change Event CE #391 - Stair 3 Alternate Pricing Breakout",
+        "type": "source/entitlement",
+        "status": "Present - Change Events log",
+        "where": "Closed; carries the $38,027.00 ROM used as context only",
+        "supports": "Entitlement, ROM context",
+        "cite": "[Change Events](https://app.procore.com/2295239/project/change_events/events)"
+      },
+      {
+        "document": "Commitment SC-1040-004 - PSI Concrete",
+        "type": "contract basis",
+        "status": "Present - Commitments",
+        "where": "Confirms scope and cost code 03-31-00; no rate exhibit attached",
+        "supports": "Entitlement, cost coding",
+        "cite": "[SC-1040-004](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040)"
+      },
+      {
+        "document": "Commitment CO #001 - executed reprice of this scope at $28,341.00",
+        "type": "contract basis",
+        "status": "Present - Commitment change orders",
+        "where": "Later executed value; confirms the sub-tier lines moved after submission",
+        "supports": "Lines 4-5, next steps",
+        "cite": "[PSI commitment change orders](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040/change_orders)"
+      },
+      {
+        "document": "Sub-tier quotes - PSG stair pan and rail, Landavazo",
+        "type": "cost backup",
+        "status": "Missing",
+        "where": "Not in pkg p.1-2 or the CE #391 attachment set",
+        "supports": "Line 4 - $16,570.00",
+        "cite": "Checked package pages 1-2, [CE #391 attachments](https://app.procore.com/2295239/project/change_events/events), and the commitment's executed change orders"
+      },
+      {
+        "document": "Rate exhibit - 15% own-cost and 5% sub-tier fee",
+        "type": "contract basis",
+        "status": "Missing",
+        "where": "No markup schedule attached to the commitment record",
+        "supports": "Lines 3, 5",
+        "cite": "Checked [SC-1040-004](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040) and the executed commitment change orders"
+      }
+    ]
+  },
+  "cost_breakdown": {
+    "note": "All 6 priced lines from the COR cover sheet (pkg p.1), graded against the two-page coverage map. This is a streamlined review: the COR total is under the $50K threshold.",
+    "rows": [
+      {
+        "n": 1,
+        "item": "Labor - PSI self-perform, Stair 3 cast-in-place",
+        "basis": "Quantity x rate, PSI Pricing Sheet",
+        "cost": 13648.0,
+        "backup_covered": 13648.0,
+        "pillar": "cost",
+        "substantiated": {
+          "status": "Validated",
+          "why": "PSI Pricing Sheet pkg p.2; hours and rates extend to the line"
+        },
+        "validated": {
+          "status": "Validated",
+          "why": "Lump Sum line consistent with the awarded PSI concrete package"
+        },
+        "reference": "[PSI Pricing Sheet](https://app.procore.com/2295239/project/change_events/events)",
+        "recommendation": "None - line closed."
+      },
+      {
+        "n": 2,
+        "item": "Concrete material",
+        "basis": "PSI Pricing Sheet",
+        "cost": 275.0,
+        "backup_covered": 275.0,
+        "pillar": "cost",
+        "substantiated": {
+          "status": "Validated",
+          "why": "PSI Pricing Sheet pkg p.2, priced at cost"
+        },
+        "validated": {
+          "status": "Validated",
+          "why": "Within the mix pricing carried on the base commitment"
+        },
+        "reference": "[PSI Pricing Sheet](https://app.procore.com/2295239/project/change_events/events)",
+        "recommendation": "None - line closed."
+      },
+      {
+        "n": 3,
+        "item": "Material, equipment and vendor - PSI",
+        "basis": "PSI Pricing Sheet",
+        "cost": 4015.0,
+        "backup_covered": 4015.0,
+        "pillar": "cost",
+        "substantiated": {
+          "status": "Validated",
+          "why": "PSI Pricing Sheet pkg p.2; itemised equipment and vendor detail"
+        },
+        "validated": {
+          "status": "Validated",
+          "why": "At cost, no markup applied at the line"
+        },
+        "reference": "[PSI Pricing Sheet](https://app.procore.com/2295239/project/change_events/events)",
+        "recommendation": "None - line closed."
+      },
+      {
+        "n": 4,
+        "item": "Subcontractors - PSG stair pan and rail, Landavazo",
+        "basis": "Cover sheet line, no quote attached",
+        "cost": 16570.0,
+        "backup_covered": 0.0,
+        "pillar": "cost",
+        "substantiated": {
+          "status": "Not validated",
+          "why": "No quote in pkg p.1-2 or the CE #391 attachment set"
+        },
+        "validated": {
+          "status": "Not validated",
+          "why": "Cover sheet marks the line \"Revising with subs / Pending Revision\""
+        },
+        "reference": "Checked pkg p.1-2 and [CE #391 attachments](https://app.procore.com/2295239/project/change_events/events)",
+        "recommendation": "Obtain PSG and Landavazo quotes from Pacific Structures before pricing line 4."
+      },
+      {
+        "n": 5,
+        "item": "PSI fee on self-performed cost, 15.00%",
+        "basis": "15.00% x $17,938.00",
+        "cost": 2690.7,
+        "derived": true,
+        "pillar": "cost",
+        "substantiated": {
+          "status": "N/A - derived",
+          "why": "15.00% of $17,938.00 base; no backup expected"
+        },
+        "validated": {
+          "status": "Not found in Procore",
+          "why": "Rate matches other Pacific Structures CORs, but no rate exhibit on the commitment"
+        },
+        "reference": "Checked [SC-1040-004](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040) for a markup schedule",
+        "recommendation": "Obtain the markup exhibit for SC-1040-004 from BASE Builders."
+      },
+      {
+        "n": 6,
+        "item": "PSI fee on sub-tier cost, 5.00%",
+        "basis": "5.00% x $16,570.00",
+        "cost": 828.5,
+        "derived": true,
+        "pillar": "cost",
+        "substantiated": {
+          "status": "N/A - derived",
+          "why": "5.00% of $16,570.00 base; no backup expected"
+        },
+        "validated": {
+          "status": "Not validated",
+          "why": "Rides on unquoted sub-tier cost; rate also has no retrievable exhibit"
+        },
+        "reference": "Checked [SC-1040-004](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040) for a markup schedule",
+        "recommendation": "Rebase the fee once the PSG and Landavazo quotes are received."
+      }
+    ],
+    "total": {
+      "status": "Partial",
+      "validated": "3 of 6 lines validated; $17,398.50 unsupported pending sub-tier quotes",
+      "reference": "[CE #391 attachment package](https://app.procore.com/2295239/project/change_events/events)",
+      "recommendation": "Revise & Resubmit lines 4 and 6; confirm the markup basis for line 5."
+    },
+    "rollup": {
+      "title": "Illustrative recommended position - arithmetic roll-up of the findings above",
+      "position": 20628.7,
+      "lines": [
+        { "label": "COR as submitted (extended line items)", "amount": 38027.2 },
+        { "label": "Hold - sub-tier scope with no attached quote (line 4)", "amount": 16570.0, "kind": "deduct" },
+        { "label": "Hold - 5% fee riding on the unquoted sub-tier cost (line 6)", "amount": 828.5, "kind": "deduct" },
+        { "label": "Ready to validate - self-performed PSI scope and 15% fee", "amount": 20628.7, "kind": "sum" }
+      ],
+      "note": "Arithmetic roll-up of the per-line findings - not an approval, not a negotiating position, and not a substitute for repricing by Pacific Structures. Held amounts convert to payable cost once the sub-tier quotes are produced. For context, this scope was later executed as Commitment CO #001 at $28,341.00."
+    }
+  },
+  "findings": [
+    {
+      "pillar": "cost",
+      "status": "Not validated",
+      "amount": 16570.0,
+      "text": "Line 4 prices $16,570.00 of sub-tier stair pan, rail and finish work with no quote anywhere in the package or the Change Event attachment set; the cover sheet itself marks the line \"Revising with subs / Pending Revision\". [CE #391](https://app.procore.com/2295239/project/change_events/events)"
+    },
+    {
+      "pillar": "cost",
+      "status": "Not validated",
+      "amount": 828.5,
+      "text": "Line 6 applies a 5.00% sub-tier fee of $828.50 to that unquoted cost, so the fee is unsupported for the same reason the base line is. [CE #391](https://app.procore.com/2295239/project/change_events/events)"
+    },
+    {
+      "pillar": "cost",
+      "status": "Not found in Procore",
+      "amount": 3519.2,
+      "text": "Neither the 15.00% own-cost fee nor the 5.00% sub-tier fee, $3,519.20 combined, has a retrievable contractual basis: no rate exhibit or markup schedule is attached to the commitment, and matching precedent CORs is corroboration rather than a contractual basis. [SC-1040-004](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040)"
+    },
+    {
+      "pillar": "cost",
+      "status": "Open",
+      "amount": 28341.0,
+      "text": "This scope was subsequently executed as Commitment CO #001 at $28,341.00, $9,686.00 below the COR as submitted; confirm with BASE Builders that the executed value supersedes this submission before acting on it. [PSI commitment change orders](https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040/change_orders)"
+    }
+  ],
+  "next_steps": [
+    "Return COR #08-90-0019 to Pacific Structures as Revise & Resubmit for lines 4 and 6.",
+    "Require the PSG and Landavazo quotes substantiating the $16,570.00 of sub-tier scope.",
+    "Obtain the markup exhibit for commitment SC-1040-004 to establish a contractual basis for the 15% and 5% fee rates.",
+    "Confirm whether executed Commitment CO #001 at $28,341.00 supersedes this COR before any further action."
+  ],
+  "references": [
+    {
+      "type": "Change event",
+      "label": "CE #391 - Stair 3 Alternate Pricing Breakout (closed)",
+      "url": "https://app.procore.com/2295239/project/change_events/events"
+    },
+    {
+      "type": "Commitment / subcontract",
+      "label": "SC-1040-004 - PSI Concrete, Pacific Structures",
+      "url": "https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040"
+    },
+    {
+      "type": "Commitment change order",
+      "label": "Commitment CO #001 - executed at $28,341.00",
+      "url": "https://app.procore.com/2295239/project/commitments/work_order_contracts/13021040/change_orders"
+    },
+    {
+      "type": "RFI",
+      "label": "RFI #457 - CIP Stair 3 clarifications",
+      "tool": "RFIs"
+    }
+  ]
+}

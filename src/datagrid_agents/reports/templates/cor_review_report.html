@@ -1,0 +1,514 @@
+<!doctype html>
+<!--
+  COR REVIEW REPORT - SKELETON
+  Micron COR Review Agent / Procore-connected review deliverable.
+
+  HOW THIS FILE IS USED
+  - This is the canonical render contract. The agent reproduces <head> verbatim and
+    fills every {{TOKEN}} with retrieved Procore data.
+  - Placeholders are {{UPPER_SNAKE}}. Rows marked "REPEAT" are emitted once per item.
+  - Sections marked OPTIONAL are omitted entirely when they would be empty.
+  - Status text must use the exact vocabulary tokens: Validated / Partial /
+    Not validated / Not found in Procore / N/A - <why>.
+  - No empty cells anywhere. No external assets. No JavaScript other than the
+    application/json data island at the end of <body>.
+-->
+<html lang="en" data-report="cor-review" data-schema-version="1.0">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COR Review - {{CO_NUMBER}} - {{SUBJECT}} - {{CONTRACTOR}}</title>
+<meta name="generator" content="Micron COR Review Agent">
+<meta name="report-verdict" content="{{VERDICT_TOKEN}}">
+<meta name="report-total" content="{{COR_TOTAL_NUMERIC}}">
+<style>
+:root{
+  --pc-orange:#ff5200; --pc-orange-600:#d84300; --pc-orange-100:#fff1ea; --pc-orange-200:#ffd9c7;
+  --pc-black:#0a0a0b; --pc-ink:#17181a; --pc-slate:#5b6169; --pc-line:#e4e6e9; --pc-bg:#f5f6f7;
+  --ok:#0e7c5a; --ok-bg:#e8f6f0; --warn:#a85408; --warn-bg:#fff3e3;
+  --fail:#b3261e; --fail-bg:#fdeceb; --none:#4b5563; --none-bg:#eef0f2;
+  --font:"Segoe UI",Roboto,"Helvetica Neue",Arial,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--pc-black)}
+body{margin:0;background:var(--pc-bg);color:var(--pc-ink);font-family:var(--font);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+a{color:var(--pc-orange-600);text-decoration:none;border-bottom:1px solid var(--pc-orange-200)}
+a:hover{border-bottom-color:var(--pc-orange-600)}
+a.plink::after{content:" \2197";font-size:.85em;color:var(--pc-slate)}
+a.dlink{color:var(--pc-slate);border-bottom-color:var(--pc-line);font-size:.92em}
+.nolink{color:var(--pc-slate);font-size:.92em}
+
+/* ---------- masthead ---------- */
+.masthead{background:var(--pc-black);color:#fff;border-top:6px solid var(--pc-orange)}
+.brandbar{display:flex;align-items:center;gap:14px;padding:14px 0 12px;border-bottom:1px solid #26282b}
+.brandbar .mark{display:flex;align-items:center;gap:9px}
+.wordmark{font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.brandbar .sep{color:#4a4d52}
+.brandbar .src{font-size:12px;color:#a6abb2;letter-spacing:.04em}
+.brandbar .right{margin-left:auto;display:flex;align-items:center;gap:16px;font-size:12px;color:#a6abb2}
+.btn{display:inline-block;background:var(--pc-orange);color:#fff !important;font-weight:700;font-size:12px;
+  letter-spacing:.04em;text-transform:uppercase;padding:8px 14px;border-radius:3px;border-bottom:none}
+.btn:hover{background:var(--pc-orange-600);border-bottom:none}
+.titleblock{padding:22px 0 26px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--pc-orange)}
+h1{margin:8px 0 6px;font-size:27px;line-height:1.22;font-weight:700;letter-spacing:-.2px}
+h1 .co{color:var(--pc-orange)}
+.subtitle{color:#c3c7cc;font-size:14px;margin:0}
+.meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#26282b;margin-top:22px;border:1px solid #26282b}
+.meta-grid div{background:#111214;padding:10px 12px}
+.meta-grid dt{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8d9299;margin:0 0 3px}
+.meta-grid dd{margin:0;font-size:13px;color:#fff;font-weight:600}
+.meta-grid dd.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- verdict + pillars ---------- */
+.deck{padding:22px 0 8px}
+.verdict{background:#fff;border:1px solid var(--pc-line);border-left:6px solid var(--pc-orange);
+  border-radius:3px;padding:16px 18px;display:flex;gap:18px;align-items:flex-start}
+.verdict .vlabel{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--pc-slate)}
+.verdict .vtoken{font-size:20px;font-weight:700;color:var(--pc-black);margin-top:2px;white-space:nowrap}
+.verdict .vbody{border-left:1px solid var(--pc-line);padding-left:18px}
+.verdict .vbody p{margin:0 0 6px}
+.verdict .vbody p:last-child{margin-bottom:0}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px}
+.metric{background:#fff;border:1px solid var(--pc-line);border-top:3px solid var(--pc-black);border-radius:3px;padding:12px}
+.metric .k{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pc-slate)}
+.metric .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:18px;font-weight:700;margin-top:4px}
+.metric .n{font-size:11px;color:var(--pc-slate);margin-top:2px}
+.metric.accent{border-top-color:var(--pc-orange)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.pillar{background:#fff;border:1px solid var(--pc-line);border-radius:3px;padding:14px 16px;border-top:4px solid var(--pc-slate)}
+.pillar[data-status="validated"]{border-top-color:var(--ok)}
+.pillar[data-status="partial"]{border-top-color:var(--warn)}
+.pillar[data-status="not-validated"]{border-top-color:var(--fail)}
+.pillar[data-status="not-found"]{border-top-color:var(--none)}
+.pillar h3{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--pc-black)}
+.pillar .pnum{color:var(--pc-orange);margin-right:6px}
+.pillar p{margin:8px 0 0;font-size:13px;color:var(--pc-ink)}
+.pillar ul{margin:8px 0 0;padding-left:18px;font-size:13px}
+.pillar li{margin-bottom:3px}
+
+/* ---------- chips ---------- */
+.chip{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 7px;border-radius:3px;border:1px solid;white-space:nowrap}
+.chip-ok{color:var(--ok);background:var(--ok-bg);border-color:#bfe3d4}
+.chip-warn{color:var(--warn);background:var(--warn-bg);border-color:#f3d5ad}
+.chip-fail{color:var(--fail);background:var(--fail-bg);border-color:#f3c4c0}
+.chip-none{color:var(--none);background:var(--none-bg);border-color:#d6dade}
+.chip-na{color:var(--pc-slate);background:#fff;border-color:var(--pc-line)}
+.chip-lg{font-size:12px;padding:4px 10px}
+
+/* ---------- sections ---------- */
+main{padding:10px 0 0}
+section{background:#fff;border:1px solid var(--pc-line);border-radius:3px;padding:18px 20px 20px;margin:14px 0}
+h2{margin:0 0 4px;font-size:16px;font-weight:700;letter-spacing:-.1px;display:flex;align-items:center;gap:10px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:var(--pc-black);
+  color:var(--pc-orange);font-size:12px;font-weight:700;border-radius:3px;flex:none}
+.sec-note{color:var(--pc-slate);font-size:12.5px;margin:0 0 12px}
+.rule{height:2px;background:linear-gradient(90deg,var(--pc-orange) 0 72px,var(--pc-line) 72px);margin:10px 0 14px}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:1px solid var(--pc-line);border-radius:3px}
+table.rpt{width:100%;border-collapse:collapse;font-size:12.5px}
+table.rpt caption{text-align:left;font-size:11px;color:var(--pc-slate);padding:8px 10px;border-bottom:1px solid var(--pc-line)}
+table.rpt th{background:var(--pc-black);color:#fff;text-align:left;font-size:10.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:9px 10px;vertical-align:bottom;white-space:nowrap}
+table.rpt td{padding:9px 10px;border-bottom:1px solid var(--pc-line);vertical-align:top}
+table.rpt tbody tr:nth-child(even){background:#fafbfb}
+table.rpt tbody tr[data-status="partial"]{box-shadow:inset 3px 0 0 var(--warn)}
+table.rpt tbody tr[data-status="not-validated"]{box-shadow:inset 3px 0 0 var(--fail)}
+table.rpt tbody tr[data-status="not-found"]{box-shadow:inset 3px 0 0 var(--none)}
+table.rpt tbody tr[data-status="validated"]{box-shadow:inset 3px 0 0 var(--ok)}
+table.rpt td.money,table.rpt th.money{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.rpt td.idx{font-family:var(--mono);color:var(--pc-slate);width:34px}
+table.rpt tr.subtotal td{background:var(--pc-orange-100);font-weight:600}
+table.rpt tr.total td{background:var(--pc-black);color:#fff;font-weight:700;border-top:3px solid var(--pc-orange);border-bottom:none}
+table.rpt tr.total a{color:#ffb694}
+table.rpt tr.total .chip{background:transparent;color:#fff;border-color:#4a4d52}
+.why{display:block;color:var(--pc-slate);margin-top:3px;font-size:11.5px}
+.rec{font-weight:600}
+table.rpt tr.total .why{color:#c3c7cc}
+.kv{width:100%;border-collapse:collapse;font-size:13px}
+.kv th{width:230px;text-align:left;background:var(--pc-orange-100);color:var(--pc-black);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;border-bottom:1px solid var(--pc-line);white-space:nowrap}
+.kv td{padding:9px 12px;border-bottom:1px solid var(--pc-line)}
+.kv tr[data-role="rom-context"] th{background:#f1f3f5;color:var(--pc-slate)}
+
+/* ---------- reconciliation aside ---------- */
+.recon{margin-top:16px;border:1px solid var(--pc-line);border-radius:3px;overflow:hidden}
+.recon h3{margin:0;background:var(--pc-black);color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:9px 12px}
+.recon table{width:100%;border-collapse:collapse;font-size:12.5px}
+.recon td{padding:7px 12px;border-bottom:1px solid var(--pc-line)}
+.recon td.money{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.recon tr.neg td.money{color:var(--fail)}
+.recon tr.sum td{font-weight:700;background:var(--pc-orange-100)}
+.recon .foot{font-size:11.5px;color:var(--pc-slate);padding:9px 12px;background:#fafbfb}
+
+/* ---------- findings ---------- */
+.findings{list-style:none;margin:0;padding:0}
+.findings li{border:1px solid var(--pc-line);border-left:4px solid var(--fail);border-radius:3px;padding:11px 13px;margin-bottom:9px;background:#fff}
+.findings li[data-status="partial"]{border-left-color:var(--warn)}
+.findings li[data-status="not-found"]{border-left-color:var(--none)}
+.findings li[data-status="open"]{border-left-color:var(--pc-orange)}
+.badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;background:var(--pc-black);padding:2px 7px;border-radius:3px;margin-right:8px}
+.badge[data-pillar="cost"]{background:var(--pc-orange-600)}
+.badge[data-pillar="schedule"]{background:var(--pc-black)}
+.badge[data-pillar="technical"]{background:var(--pc-slate)}
+.amt{font-family:var(--mono);font-weight:700}
+ol.steps{margin:0;padding-left:22px}
+ol.steps li{margin-bottom:7px}
+ol.steps li::marker{color:var(--pc-orange);font-weight:700}
+ul.refs{list-style:none;margin:0;padding:0;columns:2;column-gap:28px;font-size:12.5px}
+ul.refs li{margin-bottom:7px;break-inside:avoid;padding-left:14px;border-left:2px solid var(--pc-orange-200)}
+ul.refs .rtype{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--pc-slate)}
+
+/* ---------- footer ---------- */
+footer{border-top:3px solid var(--pc-orange);background:var(--pc-black);color:#c3c7cc;margin-top:18px;padding:18px 0 28px}
+footer .prov{font-size:11.5px;color:#8d9299;display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px}
+.disclaimer{margin:0;color:#fff;font-size:13px;font-weight:600}
+.sample-banner{background:var(--pc-orange-100);border-bottom:1px solid var(--pc-orange-200);color:#7a2f00;
+  font-size:12px;padding:8px 0;text-align:center;letter-spacing:.02em}
+
+/* ---------- responsive / print ---------- */
+@media (max-width:980px){
+  .brandbar{flex-wrap:wrap;row-gap:10px}
+  .brandbar .sep,.brandbar .src{display:none}
+  .brandbar .right{flex-direction:column;align-items:flex-end;gap:8px;text-align:right}
+  h1{font-size:22px}
+  .meta-grid{grid-template-columns:repeat(2,1fr)}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .pillars{grid-template-columns:1fr}
+  .verdict{flex-direction:column;gap:10px}
+  .verdict .vbody{border-left:none;padding-left:0}
+  ul.refs{columns:1}
+  .wrap{padding:0 16px}
+}
+@media print{
+  body{background:#fff;font-size:11px}
+  .wrap{max-width:none;padding:0 12mm}
+  .btn,.sample-banner{display:none}
+  section{break-inside:avoid;border-color:#ccc}
+  .masthead,table.rpt th,tr.total td,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  a{color:var(--pc-orange-600);border-bottom:none}
+  a[href]::after{content:"";}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     MASTHEAD - project identity + one-line verdict context
+     ============================================================ -->
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandbar">
+      <span class="mark">
+        <!-- Placeholder mark. Swap for the licensed Procore logo asset when one is available locally.
+             Never hotlink an external image: this report must stay a single self-contained file. -->
+        <svg width="26" height="26" viewBox="0 0 26 26" role="img" aria-label="Procore">
+          <rect width="26" height="26" rx="5" fill="#ff5200"></rect>
+          <path d="M8.2 19.6V6.4h5.2c2.9 0 4.7 1.7 4.7 4.4s-1.8 4.5-4.7 4.5h-2.3v4.3zm3-6.8h2c1.3 0 2.1-.8 2.1-2s-.8-2-2.1-2h-2z" fill="#fff"></path>
+        </svg>
+        <span class="wordmark">Procore</span>
+      </span>
+      <span class="sep">|</span>
+      <span class="src">Connected project data - all findings sourced from Procore</span>
+      <span class="right">
+        <span>{{AGENT_NAME}} - {{GENERATED_TIMESTAMP}}</span>
+        <!-- Live Procore deep link to the change order record. Use only URLs returned by retrieval tools. -->
+        <a class="btn" href="{{PROCORE_CO_URL}}" target="_blank" rel="noopener">Open CO in Procore</a>
+      </span>
+    </div>
+
+    <div class="titleblock">
+      <p class="eyebrow">Change Order Request Review - First-Pass Analysis</p>
+      <h1><span class="co">{{CO_NUMBER}}</span> - {{SUBJECT}}</h1>
+      <p class="subtitle">{{CONTRACTOR}} - {{COR_TOTAL_FORMATTED}} as submitted - {{PRICING_BASIS}}</p>
+
+      <dl class="meta-grid">
+        <div><dt>Project</dt><dd>{{PROJECT_NAME}}</dd></div>
+        <div><dt>Project no.</dt><dd class="num">{{PROJECT_NUMBER}}</dd></div>
+        <div><dt>Owner</dt><dd>{{OWNER}}</dd></div>
+        <div><dt>General contractor</dt><dd>{{GC}}</dd></div>
+        <div><dt>Subcontractor</dt><dd>{{CONTRACTOR}}</dd></div>
+        <div><dt>Commitment</dt><dd class="num">{{COMMITMENT_ID}}</dd></div>
+        <div><dt>COR received</dt><dd class="num">{{DATE_RECEIVED}}</dd></div>
+        <div><dt>Package</dt><dd class="num">{{PACKAGE_PAGE_COUNT}} pp. indexed</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     DECK - verdict, headline metrics, and the three review pillars
+     (cost / schedule / technical-scope) the reviewer grades on
+     ============================================================ -->
+<div class="wrap deck">
+  <div class="verdict" data-status="{{VERDICT_STATUS_SLUG}}">
+    <div>
+      <div class="vlabel">Verdict</div>
+      <div class="vtoken">{{VERDICT_TOKEN}}</div>
+      <!-- VERDICT_TOKEN: Not valid | Weak justification | Partially justified | Mostly justified | Fully justified -->
+    </div>
+    <div class="vbody">
+      <p>{{VERDICT_SENTENCE}}</p>
+      <p><strong>Backup coverage:</strong> {{BACKUP_COVERAGE_SENTENCE}}</p>
+      <!-- Schedule line: include ONLY when a schedule impact is claimed. Absence of a claim is
+           not an objection and is simply not mentioned. -->
+      <p><strong>Schedule claim:</strong> {{SCHEDULE_CLAIM_SENTENCE}}</p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric accent"><div class="k">COR as submitted</div><div class="v">{{COR_TOTAL_FORMATTED}}</div><div class="n">{{COR_TOTAL_NOTE}}</div></div>
+    <div class="metric"><div class="k">Backup coverage</div><div class="v">{{COVERAGE_PCT}}</div><div class="n">{{COVERAGE_NOTE}}</div></div>
+    <div class="metric"><div class="k">Lines w/ exceptions</div><div class="v">{{EXCEPTION_COUNT}}</div><div class="n">{{EXCEPTION_NOTE}}</div></div>
+    <div class="metric"><div class="k">Documentation gaps</div><div class="v">{{DOC_GAP_COUNT}}</div><div class="n">{{DOC_GAP_NOTE}}</div></div>
+    <div class="metric accent"><div class="k">Recommended reduction / hold</div><div class="v">{{EXPOSURE_FORMATTED}}</div><div class="n">{{EXPOSURE_NOTE}}</div></div>
+  </div>
+
+  <div class="pillars">
+    <!-- REPEAT x3, in this order: Cost, Schedule, Technical (Scope). Never omit a pillar;
+         when a pillar has nothing to test, state that and why. -->
+    <article class="pillar" data-pillar="cost" data-status="{{COST_STATUS_SLUG}}">
+      <h3><span class="pnum">01</span>Cost review <span class="chip {{COST_CHIP_CLASS}}">{{COST_STATUS}}</span></h3>
+      <ul>
+        <li>{{COST_POINT_1}}</li>
+        <li>{{COST_POINT_2}}</li>
+        <li>{{COST_POINT_3}}</li>
+      </ul>
+    </article>
+    <article class="pillar" data-pillar="schedule" data-status="{{SCHED_STATUS_SLUG}}">
+      <h3><span class="pnum">02</span>Schedule review <span class="chip {{SCHED_CHIP_CLASS}}">{{SCHED_STATUS}}</span></h3>
+      <ul>
+        <li>{{SCHED_POINT_1}}</li>
+        <li>{{SCHED_POINT_2}}</li>
+        <li>{{SCHED_POINT_3}}</li>
+      </ul>
+    </article>
+    <article class="pillar" data-pillar="technical" data-status="{{TECH_STATUS_SLUG}}">
+      <h3><span class="pnum">03</span>Technical / scope review <span class="chip {{TECH_CHIP_CLASS}}">{{TECH_STATUS}}</span></h3>
+      <ul>
+        <li>{{TECH_POINT_1}}</li>
+        <li>{{TECH_POINT_2}}</li>
+        <li>{{TECH_POINT_3}}</li>
+      </ul>
+    </article>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ===================== 1. VERDICT ===================== -->
+  <section id="verdict">
+    <h2><span class="sec-num">1</span>Verdict</h2>
+    <div class="rule"></div>
+    <p>{{VERDICT_PARAGRAPH}}</p>
+    <!-- Change Event ROM: reference only. Report CE #, ROM amount, delta vs COR total.
+         Add the informational note ONLY when |COR - ROM| / ROM > 10%, and say it does not
+         affect the Verdict. At or below 10%, state the figures and nothing further. -->
+    <p class="sec-note" data-role="rom-context">{{ROM_CONTEXT_SENTENCE}}</p>
+  </section>
+
+  <!-- ===================== 2. REVIEW SUMMARY ===================== -->
+  <section id="review-summary">
+    <h2><span class="sec-num">2</span>Review Summary</h2>
+    <div class="rule"></div>
+    <div class="tw">
+      <table class="kv">
+        <caption>Fixed rows - every review renders all of them.</caption>
+        <tbody>
+          <tr><th scope="row">Change type</th><td>{{CHANGE_TYPE}}</td></tr>
+          <tr><th scope="row">Pricing basis</th><td>{{PRICING_BASIS}}</td></tr>
+          <tr><th scope="row">Source of change</th><td>{{SOURCE_OF_CHANGE}}</td></tr>
+          <tr><th scope="row">Backup substantiates total?</th><td>{{BACKUP_ANSWER}}</td></tr>
+          <tr><th scope="row">Cost codes correct?</th><td>{{COST_CODE_ANSWER}}</td></tr>
+          <tr><th scope="row">Markups &amp; fees per contract?</th><td>{{MARKUP_ANSWER}}</td></tr>
+          <tr><th scope="row">Schedule impact</th><td>{{SCHEDULE_ANSWER}}</td></tr>
+          <tr data-role="rom-context"><th scope="row">Change Event ROM (reference only)</th><td>{{ROM_ROW}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== 3. DOCUMENT INVENTORY ===================== -->
+  <section id="document-inventory">
+    <h2><span class="sec-num">3</span>Substantiation - Document Inventory</h2>
+    <p class="sec-note">{{INVENTORY_NOTE}}</p>
+    <div class="rule"></div>
+    <div class="tw">
+      <table class="rpt">
+        <caption>One row per document the COR cites, includes, or requires - including the absent ones.</caption>
+        <thead>
+          <tr><th scope="col">#</th><th scope="col">Document</th><th scope="col">Type</th>
+              <th scope="col">Status</th><th scope="col">Supports</th><th scope="col">Cite</th></tr>
+        </thead>
+        <tbody>
+          <!-- REPEAT per document. data-status: validated (Present) | not-found (Missing).
+               Cite must be a live link from a retrieval tool, or the checked locations for Missing. -->
+          <tr data-status="{{DOC_STATUS_SLUG}}">
+            <td class="idx">{{DOC_N}}</td>
+            <td>{{DOC_NAME}}</td>
+            <td>{{DOC_TYPE}}</td>
+            <td><span class="chip {{DOC_CHIP_CLASS}}">{{DOC_STATUS}}</span><span class="why">{{DOC_STATUS_WHERE}}</span></td>
+            <td>{{DOC_SUPPORTS}}</td>
+            <td>{{DOC_CITE_LINK}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== 4. COST BREAKDOWN & VALIDATION ===================== -->
+  <section id="cost-breakdown">
+    <h2><span class="sec-num">4</span>Cost Breakdown &amp; Validation</h2>
+    <p class="sec-note">{{COST_TABLE_NOTE}}</p>
+    <div class="rule"></div>
+    <div class="tw">
+      <table class="rpt">
+        <caption>Every priced line from the COR, graded from the page-inventory coverage map. No empty cells.</caption>
+        <thead>
+          <tr><th scope="col">#</th><th scope="col">Line item</th><th scope="col" class="money">Cost</th>
+              <th scope="col">Substantiated</th><th scope="col">Validated</th>
+              <th scope="col">Reference</th><th scope="col">Recommendation</th></tr>
+        </thead>
+        <tbody>
+          <!-- REPEAT per priced line. Every percentage-based line (OH&P, fee, insurance, bond, tax)
+               gets its own row and is validated against a named contract exhibit. -->
+          <tr data-status="{{LINE_STATUS_SLUG}}" data-amount="{{LINE_AMOUNT_NUMERIC}}">
+            <td class="idx">{{LINE_N}}</td>
+            <td>{{LINE_DESC}}<span class="why">{{LINE_BASIS}}</span></td>
+            <td class="money">{{LINE_COST}}</td>
+            <td><span class="chip {{LINE_SUB_CHIP}}">{{LINE_SUB_STATUS}}</span><span class="why">{{LINE_SUB_WHY}}</span></td>
+            <td><span class="chip {{LINE_VAL_CHIP}}">{{LINE_VAL_STATUS}}</span><span class="why">{{LINE_VAL_WHY}}</span></td>
+            <td>{{LINE_REFERENCE_LINK}}</td>
+            <td class="rec">{{LINE_RECOMMENDATION}}</td>
+          </tr>
+          <tr class="subtotal" data-status="{{SUBTOTAL_STATUS_SLUG}}">
+            <td class="idx">-</td><td>{{SUBTOTAL_LABEL}}</td><td class="money">{{SUBTOTAL_COST}}</td>
+            <td>{{SUBTOTAL_SUB}}</td><td>{{SUBTOTAL_VAL}}</td><td>{{SUBTOTAL_REF}}</td><td>{{SUBTOTAL_REC}}</td>
+          </tr>
+          <tr class="total" data-status="{{TOTAL_STATUS_SLUG}}" data-amount="{{COR_TOTAL_NUMERIC}}">
+            <td class="idx">-</td>
+            <td>Total - COR as submitted<span class="why">{{TOTAL_BASIS}}</span></td>
+            <td class="money">{{COR_TOTAL_FORMATTED}}</td>
+            <td><span class="chip {{TOTAL_SUB_CHIP}}">{{TOTAL_SUB_STATUS}}</span><span class="why">{{TOTAL_SUB_WHY}}</span></td>
+            <td><span class="chip {{TOTAL_VAL_CHIP}}">{{TOTAL_VAL_STATUS}}</span><span class="why">{{TOTAL_VAL_WHY}}</span></td>
+            <td>{{TOTAL_REFERENCE_LINK}}</td>
+            <td class="rec">{{TOTAL_RECOMMENDATION}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OPTIONAL: include only when line-level exceptions produce a quantified position.
+         Label it as an illustrative arithmetic roll-up - never an approval. -->
+    <div class="recon">
+      <h3>{{RECON_TITLE}}</h3>
+      <table>
+        <tbody>
+          <!-- REPEAT per adjustment; class="neg" for reductions/holds, class="sum" for roll-up lines. -->
+          <tr><td>{{RECON_LABEL}}</td><td class="money">{{RECON_AMOUNT}}</td></tr>
+          <tr class="sum"><td>{{RECON_TOTAL_LABEL}}</td><td class="money">{{RECON_TOTAL_AMOUNT}}</td></tr>
+        </tbody>
+      </table>
+      <p class="foot">{{RECON_FOOTNOTE}}</p>
+    </div>
+  </section>
+
+  <!-- ===================== 5. FINDINGS (OPTIONAL) =====================
+       Exceptions only - one item per failing/partial cost line, one per Missing
+       document, plus any objection a table cell cannot carry. Omit the whole
+       section when nothing failed. Each item is tagged with its pillar. -->
+  <section id="findings">
+    <h2><span class="sec-num">5</span>Findings</h2>
+    <p class="sec-note">{{FINDINGS_NOTE}}</p>
+    <div class="rule"></div>
+    <ul class="findings">
+      <!-- REPEAT per finding. Objections first, then open/untestable items with a resolution path. -->
+      <li data-status="{{FINDING_STATUS_SLUG}}" data-pillar="{{FINDING_PILLAR}}">
+        <span class="badge" data-pillar="{{FINDING_PILLAR}}">{{FINDING_PILLAR_LABEL}}</span>
+        {{FINDING_SENTENCE}} {{FINDING_CITE_LINK}}
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===================== 6. NEXT STEPS (OPTIONAL) =====================
+       Up to 5 short imperatives, roll-up priorities only. Omit when no action is needed. -->
+  <section id="next-steps">
+    <h2><span class="sec-num">6</span>Next Steps</h2>
+    <div class="rule"></div>
+    <ol class="steps">
+      <li>{{NEXT_STEP}}</li>
+    </ol>
+  </section>
+
+  <!-- ===================== 7. REFERENCES ===================== -->
+  <section id="references">
+    <h2><span class="sec-num">7</span>Procore References</h2>
+    <p class="sec-note">{{REFERENCES_NOTE}}</p>
+    <div class="rule"></div>
+    <ul class="refs">
+      <!-- REPEAT per Procore record cited anywhere in the report. -->
+      <li><span class="rtype">{{REF_TYPE}}</span>{{REF_LINK}}</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="prov">
+      <span>Agent: {{AGENT_NAME}}</span>
+      <span>Generated: {{GENERATED_TIMESTAMP}}</span>
+      <span>Data source: Procore only ({{PROCORE_SCOPE_NOTE}})</span>
+      <span>Package indexed: {{PACKAGE_PAGE_COUNT}} pp.</span>
+    </p>
+    <!-- Closing line - exact text, last visible element in the document. -->
+    <p class="disclaimer">First-pass analysis only - Micron decides. Deep-dive detailed report available on request.</p>
+  </div>
+</footer>
+
+<!-- Machine-readable mirror of the report for downstream reasoning models.
+     Every figure here must equal the rendered figure above. -->
+<script type="application/json" id="cor-review-data">
+{
+  "schema": "micron.cor-review/1.0",
+  "co_number": "{{CO_NUMBER}}",
+  "subject": "{{SUBJECT}}",
+  "contractor": "{{CONTRACTOR}}",
+  "project": "{{PROJECT_NAME}}",
+  "commitment": "{{COMMITMENT_ID}}",
+  "generated": "{{GENERATED_TIMESTAMP}}",
+  "verdict": "{{VERDICT_TOKEN}}",
+  "pricing_basis": "{{PRICING_BASIS}}",
+  "change_type": "{{CHANGE_TYPE}}",
+  "cor_total": 0,
+  "direct_cost_subtotal": 0,
+  "backup_covered": 0,
+  "recommended_position": 0,
+  "recommended_adjustment": 0,
+  "pillars": {
+    "cost": {"status": "{{COST_STATUS}}", "note": "{{COST_JSON_NOTE}}"},
+    "schedule": {"status": "{{SCHED_STATUS}}", "note": "{{SCHED_JSON_NOTE}}"},
+    "technical": {"status": "{{TECH_STATUS}}", "note": "{{TECH_JSON_NOTE}}"}
+  },
+  "change_event_rom": {"ce": "{{CE_NUMBER}}", "amount": 0, "delta_vs_cor": 0, "delta_pct": 0, "basis": "reference only"},
+  "schedule_claim": {"claimed": true, "days": 0, "amount": 0, "substantiated": false},
+  "line_items": [
+    {"n": 1, "description": "{{LINE_DESC}}", "cost": 0, "substantiated": "{{LINE_SUB_STATUS}}", "validated": "{{LINE_VAL_STATUS}}", "pillar": "cost"}
+  ],
+  "document_gaps": [
+    {"document": "{{DOC_NAME}}", "status": "Missing", "supports": "{{DOC_SUPPORTS}}"}
+  ],
+  "findings": [
+    {"pillar": "cost", "status": "Not validated", "amount": 0, "summary": "{{FINDING_SENTENCE}}"}
+  ],
+  "next_steps": ["{{NEXT_STEP}}"],
+  "guardrail": "Analysis only - no approval, rejection, or Procore write-back."
+}
+</script>
+</body>
+</html>

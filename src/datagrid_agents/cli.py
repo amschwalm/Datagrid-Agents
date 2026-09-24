@@ -11,6 +11,15 @@ from datagrid_agents.client import MissingApiKeyError
 from datagrid_agents.orchestrator import list_roles
 from datagrid_agents.orchestrator.skill_bridge import load_skill_modules, skill_scripts_dir
 from datagrid_agents.registry import list_definitions, load_definition
+from datagrid_agents.reports import (
+    PAYLOAD_PATH,
+    PayloadError,
+    SAMPLE_PATH,
+    TEMPLATE_PATH,
+    render_report,
+    validate_file,
+    validate_report,
+)
 from datagrid_agents import service
 
 
@@ -141,6 +150,58 @@ def cmd_whoami(_: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_report(args: argparse.Namespace) -> int:
+    """Emit or check the COR review report render contract."""
+    if args.action == "validate":
+        if not args.path:
+            print("error: report validate needs a file path", file=sys.stderr)
+            return 2
+        issues = validate_file(args.path, allow_placeholders=args.allow_placeholders)
+        if issues:
+            print(f"{args.path}: {len(issues)} issue(s)")
+            for issue in issues:
+                print(f"  - {issue}")
+            return 1
+        print(f"{args.path}: report passes the COR review render contract")
+        return 0
+
+    if args.action == "render":
+        path = Path(args.path) if args.path else PAYLOAD_PATH
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            print(f"error: {path} is not valid JSON: {exc}", file=sys.stderr)
+            return 2
+        try:
+            html = render_report(payload)
+        except PayloadError as exc:
+            print(f"error: {path}: {exc}", file=sys.stderr)
+            return 1
+        issues = validate_report(html)
+        if issues:
+            print(f"rendered report fails the contract ({len(issues)} issue(s)):", file=sys.stderr)
+            for issue in issues:
+                print(f"  - {issue}", file=sys.stderr)
+            return 1
+        return _emit(html, args.out, f"rendered from {path.name}")
+
+    if args.action == "payload":
+        return _emit(PAYLOAD_PATH.read_text(encoding="utf-8"), args.out, PAYLOAD_PATH.name)
+
+    source = TEMPLATE_PATH if args.action == "template" else SAMPLE_PATH
+    return _emit(source.read_text(encoding="utf-8"), args.out, source.name)
+
+
+def _emit(text: str, out: str | None, origin: str) -> int:
+    if out:
+        path = Path(out)
+        path.write_text(text, encoding="utf-8")
+        print(f"wrote {path} ({len(text):,} bytes) from {origin}")
+    else:
+        print(text)
+    return 0
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     prompt = args.prompt
     if args.file:
@@ -236,6 +297,31 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--conversation-id", help="Continue an existing conversation")
     p_run.add_argument("--json", action="store_true", help="Emit JSON instead of plain text")
     p_run.set_defaults(func=cmd_run)
+
+    p_report = sub.add_parser(
+        "report",
+        help="Build, emit, or validate the COR review HTML report",
+    )
+    p_report.add_argument(
+        "action",
+        choices=["render", "payload", "template", "sample", "validate"],
+        help=(
+            "render: build the report from an agent payload; payload: example payload; "
+            "template: skeleton; sample: populated mockup; validate: check a file"
+        ),
+    )
+    p_report.add_argument(
+        "path",
+        nargs="?",
+        help="Payload JSON (action=render) or report file (action=validate)",
+    )
+    p_report.add_argument("--out", "-o", help="Write to this path instead of stdout")
+    p_report.add_argument(
+        "--allow-placeholders",
+        action="store_true",
+        help="Permit {{TOKEN}} placeholders (use when validating the template itself)",
+    )
+    p_report.set_defaults(func=cmd_report)
 
     p_roles = sub.add_parser(
         "roles",

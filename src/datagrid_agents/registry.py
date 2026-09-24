@@ -2,13 +2,19 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 import yaml
 
-DEFINITIONS_DIR = Path(__file__).resolve().parent / "definitions"
+PACKAGE_DIR = Path(__file__).resolve().parent
+DEFINITIONS_DIR = PACKAGE_DIR / "definitions"
+
+_INCLUDE_RE = re.compile(r"^[ \t]*\{\{include:\s*(?P<path>[^{}]+?)\s*\}\}[ \t]*$", re.MULTILINE)
+_MAX_INCLUDE_DEPTH = 3
+_PROMPT_FIELDS = ("system_prompt", "custom_prompt", "planning_prompt")
 
 
 @dataclass(frozen=True)
@@ -22,6 +28,7 @@ class AgentDefinition:
     custom_prompt: str | None = None
     planning_prompt: str | None = None
     agent_model: str = "magpie-2.5"
+    llm_model: str | None = None
     tools: list[str] = field(default_factory=list)
     knowledge_env: str | None = None
     sample_prompt: str | None = None
@@ -34,6 +41,8 @@ class AgentDefinition:
             "system_prompt": self.system_prompt,
             "agent_model": self.agent_model,
         }
+        if self.llm_model:
+            params["llm_model"] = self.llm_model
         if self.custom_prompt:
             params["custom_prompt"] = self.custom_prompt
         if self.planning_prompt:
@@ -47,9 +56,52 @@ class AgentDefinition:
         return params
 
 
+def _resolve_inside_package(reference: str, base_dir: Path) -> Path:
+    """Resolve a prompt/include reference, refusing to leave the package tree."""
+    candidate = (base_dir / reference).resolve()
+    if not candidate.is_relative_to(PACKAGE_DIR):
+        raise ValueError(f"prompt reference '{reference}' escapes {PACKAGE_DIR}")
+    if not candidate.exists():
+        raise FileNotFoundError(f"prompt file not found: {candidate}")
+    return candidate
+
+
+def _expand_includes(text: str, base_dir: Path, depth: int = 0) -> str:
+    """Replace `{{include: relative/path}}` lines with the referenced file."""
+    if depth >= _MAX_INCLUDE_DEPTH:
+        raise ValueError(f"prompt include nesting exceeds {_MAX_INCLUDE_DEPTH} levels")
+
+    def _replace(match: re.Match[str]) -> str:
+        path = _resolve_inside_package(match.group("path"), base_dir)
+        nested = path.read_text(encoding="utf-8")
+        return _expand_includes(nested, path.parent, depth + 1).rstrip("\n")
+
+    return _INCLUDE_RE.sub(_replace, text)
+
+
+def _read_prompt_file(reference: str) -> str:
+    path = _resolve_inside_package(reference, PACKAGE_DIR)
+    return _expand_includes(path.read_text(encoding="utf-8"), path.parent).strip()
+
+
+def _prompt_value(raw: dict[str, Any], slug: str, field_name: str) -> str | None:
+    """Read a prompt from the YAML body or from its `<field>_file` sibling."""
+    inline = _optional_str(raw.get(field_name))
+    reference = _optional_str(raw.get(f"{field_name}_file"))
+    if inline and reference:
+        raise ValueError(f"{slug}: set either {field_name} or {field_name}_file, not both")
+    if reference:
+        return _read_prompt_file(reference)
+    return inline
+
+
 def _parse_definition(raw: dict[str, Any], slug: str) -> AgentDefinition:
-    required = ("name", "description", "system_prompt")
+    prompts = {name: _prompt_value(raw, slug, name) for name in _PROMPT_FIELDS}
+
+    required = ("name", "description")
     missing = [key for key in required if not raw.get(key)]
+    if not prompts["system_prompt"]:
+        missing.append("system_prompt")
     if missing:
         raise ValueError(f"{slug}: missing required fields: {', '.join(missing)}")
 
@@ -57,10 +109,11 @@ def _parse_definition(raw: dict[str, Any], slug: str) -> AgentDefinition:
         slug=slug,
         name=str(raw["name"]),
         description=str(raw["description"]),
-        system_prompt=str(raw["system_prompt"]).strip(),
-        custom_prompt=_optional_str(raw.get("custom_prompt")),
-        planning_prompt=_optional_str(raw.get("planning_prompt")),
+        system_prompt=str(prompts["system_prompt"]),
+        custom_prompt=prompts["custom_prompt"],
+        planning_prompt=prompts["planning_prompt"],
         agent_model=str(raw.get("agent_model") or "magpie-2.5"),
+        llm_model=_optional_str(raw.get("llm_model")),
         tools=[str(t) for t in (raw.get("tools") or [])],
         knowledge_env=_optional_str(raw.get("knowledge_env")),
         sample_prompt=_optional_str(raw.get("sample_prompt")),
